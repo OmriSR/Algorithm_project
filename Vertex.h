@@ -9,6 +9,5 @@ class Vertex
 public:
 	Vertex(ID id);
 	Vertex(ID id, unsigned int edgeNum);
-
 };
 
