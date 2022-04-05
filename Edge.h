@@ -1,14 +1,13 @@
 #pragma once
+
 class Edge
 {
 	pair<int, int> m_name;
 	int m_weight = 0;
-	HeapNode* m_dualPointer = nullptr;
 	bool m_ignore = false;
 	bool m_isBridge;
 
 public:
-
 
 	int getWeight()
 	{
