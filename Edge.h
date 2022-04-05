@@ -1,8 +1,12 @@
 #pragma once
+#include <utility>
+#include <vector>
 
 class Edge
 {
-	pair<int, int> m_name;
+	//std::pair<int, int> m_name;
+	unsigned int src;
+	unsigned int dst;
 	int m_weight = 0;
 	bool m_ignore = false;
 	bool m_isBridge;
@@ -19,14 +23,8 @@ public:
 		m_weight = i_weight;
 	}
 
-	void setDualPointer(HeapNode* i_memAddress)
-	{
-		m_dualPointer = i_memAddress;
-	}
-
-	HeapNode* getDualPointer()
-	{
-		return m_dualPointer;
-	}
+	bool operator<(const Edge& Other) { return m_weight < Other.m_weight; }//for sorting edges with kruskal
 };
 
+void quicksort(std::vector<Edge>& lst, std::vector<Edge>::iterator Left, std::vector<Edge>::iterator Right);
+std::vector<Edge>::iterator partition(std::vector<Edge>& lst, std::vector<Edge>::iterator Left, std::vector<Edge>::iterator Right);
