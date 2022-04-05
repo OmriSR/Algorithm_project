@@ -16,7 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
+     <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PriorityQueue.cpp">
       <Filter>Source Files</Filter>
@@ -28,6 +28,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Edge.cpp">
+		<Filter>Source Files</Filter>
+	</ClCompile>
        <ClCompile Include="Disjointed_sets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -50,6 +52,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Edge.h">
+	</ClInclude>
           <ClInclude Include="Disjointed_sets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
