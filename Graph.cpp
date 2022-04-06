@@ -19,7 +19,7 @@ std::vector<Graph::Edge> Graph::GetAllEdges()
 	AllEdges.reserve(m_num_of_vertices * m_num_of_vertices); //Worst case n^2 edges  AllEdges.reserve(m_num_of_vertices * (m_num_of_vertices-1))
 
 	for (const auto& V : m_vertices)
-		AllEdges.insert(AllEdges.end(), V.m_Edges.begin(), V.m_Edges.end());
+	//	AllEdges.insert(AllEdges.end(), V.m_Edges.begin(), V.m_Edges.end());
 	
 	AllEdges.shrink_to_fit();
 

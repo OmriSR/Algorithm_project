@@ -1,14 +1,16 @@
 #pragma once
 #include <vector>
-
+#include <set>
+#include <list>
 class Graph
 {
 public:
 	class Edge
 	{
-		unsigned int                  m_src;
-		unsigned int                  m_dst;
-		Edge* m_dst_edge_undirected = nullptr;
+		unsigned int                    m_src;
+		unsigned int                    m_dst;
+		std::set<unsigned int>  unordered_name;
+		Edge* m_same_edge_undirected = nullptr;
 		int m_weight = 0;
 		bool m_ignore = false;
 		bool m_isBridge;
@@ -17,10 +19,12 @@ public:
 	public:
 		Edge(unsigned int src = 0, unsigned int dst = 0, int weight = 0)
 		{
-			m_src = src;
-			m_dst = dst;
-			m_weight = weight;
-			m_ignore = false;
+			m_src =        src;
+			m_dst =        dst;
+			unordered_name.insert(src);
+			unordered_name.insert(dst);
+			m_weight =  weight;
+			m_ignore =   false;
 			m_isBridge = false;
 		}
 		int getWeight()
@@ -43,7 +47,7 @@ private:
 		unsigned int m_connected_component_Rep = 0;
 		unsigned int         m_neighbors_count = 0;
 		unsigned int              m_identifier = 0;
-		std::vector<Edge>                  m_Edges;  /// not vector<vertex> ??
+		std::list<Edge>        m_EdgesToNeighnours;
 
 		friend class Graph;
 	public:

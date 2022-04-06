@@ -4,6 +4,7 @@
 void quicksort(std::vector<Graph::Edge>& Edgevec, std::vector<Graph::Edge>::iterator Left, std::vector<Graph::Edge>::iterator Right)
 {
 	if (Left >= Right) return;
+	if (Edgevec.size() <= 1) return;
 	
 	std::vector<Graph::Edge>::iterator pivot = partition(Edgevec, Left, Right);
 	quicksort(Edgevec, pivot + 1, Right);
