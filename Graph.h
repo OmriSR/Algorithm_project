@@ -2,6 +2,9 @@
 #include <vector>
 #include <set>
 #include <list>
+#include <iostream>
+#include <stdlib.h>
+
 class Graph
 {
 public:
@@ -40,14 +43,13 @@ public:
 			return m_weight < Other.m_weight;
 		}//for sorting edges with kruskal
 	};//END of Class Edge
-
 private:
 	class Vertex
 	{
 		unsigned int m_connected_component_Rep = 0;
 		unsigned int         m_neighbors_count = 0;
 		unsigned int              m_identifier = 0;
-		std::list<Edge>        m_EdgesToNeighnours;
+		list<Edge>			   m_EdgesToNeighbours;
 
 		friend class Graph;
 	public:
@@ -59,8 +61,7 @@ private:
 		}
 	};//END of Class Vertex
 
-	std::vector<Vertex> m_vertices;   /// needs to be reserved in the ctor
-	unsigned int m_num_of_vertices;
+	vector<Vertex> m_vertices;  
 
 public:
 
@@ -70,10 +71,11 @@ public:
 	}
 
 	void MakeEmpty(unsigned int Vertices);
-	//bool IsAdjacent(unsigned int U, unsigned int V);
-	//void AddEdge(unsigned int U, unsigned int V, int weight);
+	bool IsAdjacent(unsigned int i_u, unsigned int i_v);
+	bool isVertexInNeighboursList(unsigned int i_u, unsigned int i_v);
+	void AddEdge(unsigned int U, unsigned int V, int weight);
 	//RemoveEdge(unsigned int U,unsigned int V)
 	std::vector<Graph::Edge> GetAllEdges();
-	const std::vector<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_Edges; }
+	const list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }
 };
 
