@@ -15,7 +15,7 @@ int main()
 
 }
 
-void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {
+void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is now hardcoded! needs to be change befor useage
 	//int arr[4] = { 4,2,1,3 };
 
 	cout << "The given array: " << '\n';
