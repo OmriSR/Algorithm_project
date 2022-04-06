@@ -43,7 +43,7 @@ private:
 		unsigned int m_connected_component_Rep = 0;
 		unsigned int         m_neighbors_count = 0;
 		unsigned int              m_identifier = 0;
-		std::vector<Edge>                  m_Edges;
+		std::vector<Edge>                  m_Edges;  /// not vector<vertex> ??
 
 		friend class Graph;
 	public:
@@ -55,7 +55,7 @@ private:
 		}
 	};//END of Class Vertex
 
-	std::vector<Vertex> m_vertices;
+	std::vector<Vertex> m_vertices;   /// needs to be reserved in the ctor
 	unsigned int m_num_of_vertices;
 
 public:
@@ -64,6 +64,7 @@ public:
 	{
 		MakeEmpty(num);
 	}
+
 	void MakeEmpty(unsigned int Vertices);
 	//bool IsAdjacent(unsigned int U, unsigned int V);
 	//void AddEdge(unsigned int U, unsigned int V, int weight);

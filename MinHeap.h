@@ -11,7 +11,7 @@ class MinHeap
 	class HeapNode
 	{
 		int m_vertexNum = 0;						//edge name  == data
-		int m_weight = 0;						   //edge weight == key
+		int m_weightToTree = 0;						   //edge weight == key
 //		Edge* m_dualPointer = nullptr;
 
 	public:
@@ -25,10 +25,11 @@ class MinHeap
 	};
 
 	HeapNode* m_heapArr = nullptr;
-	int m_heapSize = 0, m_heapMaxSize = 0; /* = n-1*/  // the heap is constructed of all the edges from some vertex v in the graph to the current tree -> <= n-1 in a simple graph
+	int m_heapSize = 0, m_heapMaxSize = 0; 
 	int* m_heapPtrArr = nullptr;
 	bool m_allocated = false;
 
+private:
 	int getLeftSon(int i_heapNode);
 
 	int getRightSon(int i_heapNode);
@@ -39,15 +40,26 @@ class MinHeap
 
 	void updateHeapNodesDualPtr(const int& i_ind1, const int& i_ind2);
 
-	void initHeapPtrArr(HeapNode* i_heapBaseArr, int i_size);
+	//void initHeapPtrArr(HeapNode* i_heapBaseArr, int i_size);
 
 public:
+	// ---------------testing------------------
+	int* printHeapWeightsArr()
+	{
+		int* arr = new int[m_heapSize];
+
+		for (int i = 0; i < m_heapSize; ++i)
+		{
+			int weight = m_heapArr[i].getWeight();
+			arr[i] = weight;
+		}
+		return arr;
+	}
 
 	void build(HeapNode* i_heapBaseArr, int i_size);
+	//------------------------------------------------
 
-	MinHeap(int i_numOfVertices);
-
-	MinHeap(HeapNode* i_heapBaseArr, int i_size);
+	MinHeap(int* i_heapBaseArr, int i_size);
 
 	~MinHeap();
 
