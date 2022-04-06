@@ -4,6 +4,7 @@
 #include <list>
 #include <iostream>
 #include <stdlib.h>
+using namespace std;
 
 class Graph
 {
@@ -49,7 +50,7 @@ private:
 		unsigned int m_connected_component_Rep = 0;
 		unsigned int         m_neighbors_count = 0;
 		unsigned int              m_identifier = 0;
-		list<Edge>			   m_EdgesToNeighbours;
+		list<Graph::Edge>			   m_EdgesToNeighbours;
 
 		friend class Graph;
 	public:
