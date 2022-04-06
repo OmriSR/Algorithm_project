@@ -1,17 +1,17 @@
 #include "Edge.h"
 
 
-void quicksort(std::vector<Edge>& Edgevec, std::vector<Edge>::iterator Left, std::vector<Edge>::iterator Right)
+void quicksort(std::vector<Graph::Edge>& Edgevec, std::vector<Graph::Edge>::iterator Left, std::vector<Graph::Edge>::iterator Right)
 {
 	if (Left >= Right) return;
 	
-	std::vector<Edge>::iterator pivot = partition(Edgevec, Left, Right);
+	std::vector<Graph::Edge>::iterator pivot = partition(Edgevec, Left, Right);
 	quicksort(Edgevec, pivot + 1, Right);
 	quicksort(Edgevec, Left, pivot - 1);
 }
-std::vector<Edge>::iterator partition(std::vector<Edge>&Edgevec , std::vector<Edge>::iterator Left, std::vector<Edge>::iterator Right)
+std::vector<Graph::Edge>::iterator partition(std::vector<Graph::Edge>&Edgevec , std::vector<Graph::Edge>::iterator Left, std::vector<Graph::Edge>::iterator Right)
 {
-	std::vector<Edge>::iterator current = Right, pivot = Left;
+	std::vector<Graph::Edge>::iterator current = Right, pivot = Left;
 
 	for (;current!=pivot;)
 	{
