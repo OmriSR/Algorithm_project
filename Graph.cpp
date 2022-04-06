@@ -46,8 +46,8 @@ std::vector<Graph::Edge> Graph::MakeUniqueEdgeVec()
 
 bool Graph::IsAdjacent(unsigned int i_uInd, unsigned int i_vInd)
 {
-	unsigned int u_numOfNeighbours = m_vertices[i_uInd].m_neighbours_count;
-	unsigned int v_numOfNeighbours = m_vertices[i_vInd].m_neighbours_count;
+	unsigned int u_numOfNeighbours = m_vertices[i_uInd].m_neighbors_count;
+	unsigned int v_numOfNeighbours = m_vertices[i_vInd].m_neighbors_count;
 	
 	return u_numOfNeighbours > v_numOfNeighbours ? isVertexInNeighboursList(i_uInd, i_vInd) : isVertexInNeighboursList(i_vInd, i_uInd);
 }
@@ -56,7 +56,7 @@ bool Graph::isVertexInNeighboursList(unsigned int i_vertexToFind, unsigned int i
 {
 	for (const auto& curNeighbour : m_vertices[i_neighboursListVertex].m_EdgesToNeighbours)
 	{
-		if (curNeighbour == m_vertices[i_vertexToFind])
+		if (curNeighbour.m_src == i_vertexToFind)
 		{
 			return true;
 		}
