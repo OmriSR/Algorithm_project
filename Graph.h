@@ -5,6 +5,8 @@
 #include <iostream>
 #include <stdlib.h>
 
+enum error{not_a_new_edge, negative_vertex, not_int, vertex_out_of_range};
+
 class Graph
 {
 public:
@@ -75,6 +77,11 @@ public:
 	bool isVertexInNeighboursList(unsigned int i_u, unsigned int i_v);
 	void AddEdge(unsigned int U, unsigned int V, int weight);
 	//RemoveEdge(unsigned int U,unsigned int V)
+	bool isNumAnInt(int i_vertex);
+	bool isVertexInRange(int i_vertex, int i_start, int i_end);
+	bool newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, int i_weight);
+
+
 	std::vector<Graph::Edge> GetAllEdges();
 	const list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }
 };

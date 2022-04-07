@@ -4,7 +4,6 @@ using namespace std;
 
 void Graph::MakeEmpty(unsigned int i_numOfVertices)
 {
-	m_num_of_vertices = i_numOfVertices;
 	m_vertices.reserve(i_numOfVertices);
 	
 	for (unsigned int i = 0; i < i_numOfVertices; ++i)   
@@ -45,12 +44,55 @@ bool Graph::isVertexInNeighboursList(unsigned int i_vertexToFind, unsigned int i
 	}
 }
 
-void Graph::AddEdge(unsigned int i_uInd, unsigned int i_vInd, int weight)
+void Graph::AddEdge(unsigned int i_uInd, unsigned int i_vInd, int i_weight)
 {
-	if (isVertexInNeighboursList(i_uInd, i_vInd) == true)
+	newEdgeValidityCheck(i_uInd, i_vInd, i_weight);
+
+	m_vertices[i_uInd].m_EdgesToNeighbours.emplace_back(Edge(i_uInd, i_vInd, i_weight));
+	m_vertices[i_vInd].m_EdgesToNeighbours.emplace_back(Edge(i_vInd, i_uInd, i_weight));
+
+}
+
+bool Graph::newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, int i_weight)
+{
+	try
 	{
-		cout << "The vertex (" << i_uInd << "," << i_vInd << ") already exist in the graph!";
+		if (isVertexInNeighboursList(i_uInd, i_vInd) == true) {throw(not_a_new_edge);}
+		if (i_uInd < 0 || i_vInd < 0) {throw(negative_vertex);}
+		if ((isNumAnInt(i_uInd) && isNumAnInt(i_vInd) && isNumAnInt(i_weight)) == false) {throw(not_int);}
+		if ((isVertexInRange(i_vInd, 1, m_vertices.size()) && isVertexInRange(i_uInd, 1, m_vertices.size()) == false)) {throw(vertex_out_of_range);}
+	}
+	catch (int i_error)
+	{
+		switch (i_error)
+		{
+		case 0:
+			cout << "The vertex (" << i_uInd << "," << i_vInd << ") already exist in the graph!";
+			break;
+		case 1:
+			cout << "The vertices must be a non-negative!";
+			break;
+		case 2:
+			cout << "The vertices and weight must be an integer!";
+			break;
+		case 3:
+			cout << "The vertices must be in between 1 and n";
+			break;
+		default:
+			cout << "An error occurred.";
+			break;
+		}
 		exit(1);
 	}
-	//negetivity check! (validation)
 }
+
+bool Graph::isNumAnInt(int i_vertex)
+{
+	return (typeid(i_vertex).name() == typeid(int).name());
+}
+
+bool Graph::isVertexInRange(int i_vertex, int i_start, int i_end)
+{
+	return (i_vertex <= i_end && i_vertex >= i_start);
+}
+
