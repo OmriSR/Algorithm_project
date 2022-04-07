@@ -51,7 +51,6 @@ private:
 		unsigned int         m_neighbors_count = 0;
 		unsigned int              m_identifier = 0;
 
-
 		list<Edge>			   m_EdgesToNeighbours;
 
 
@@ -71,8 +70,9 @@ private:
 
 
 	std::vector<Graph::Edge> MakeUniqueEdgeVec();
-	static void quicksort(std::vector<Graph::Edge>& lst, std::vector<Graph::Edge>::iterator Left, std::vector<Graph::Edge>::iterator Right);
-	static std::vector<Graph::Edge>::iterator partition(std::vector<Graph::Edge>& lst, std::vector<Graph::Edge>::iterator Left, std::vector<Graph::Edge>::iterator Right);
+public://FOR TESTING, put back in private after
+	static void quicksort(std::vector<Graph::Edge>& edgevec, const std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
+	static std::vector<Graph::Edge>::iterator partition(std::vector<Graph::Edge>& lst,const  std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
 public:
 
 	Graph(unsigned int num)
@@ -85,6 +85,6 @@ public:
 	void AddEdge(unsigned int U, unsigned int V, int weight);
 	//RemoveEdge(unsigned int U,unsigned int V)
 	std::vector<Graph::Edge> GetAllEdges_Ordered();
-	const std::list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighours; }
+	const std::list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }
 };
 
