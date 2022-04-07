@@ -32,10 +32,10 @@ public:
 			m_ignore =   false;
 			m_isBridge = false;
 		}
-		int getWeight()
+		int getWeight()                         // both set and get method are unnecessary while Edge is public.
 		{
 			return m_weight;
-		}
+		}                           
 		void setWeight(const int& i_weight)
 		{
 			m_weight = i_weight;
@@ -80,6 +80,8 @@ public:
 	bool isNumAnInt(int i_vertex);
 	bool isVertexInRange(int i_vertex, int i_start, int i_end);
 	bool newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, int i_weight);
+	void connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd);
+
 
 
 	std::vector<Graph::Edge> GetAllEdges();

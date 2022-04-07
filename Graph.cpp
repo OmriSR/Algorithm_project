@@ -51,8 +51,17 @@ void Graph::AddEdge(unsigned int i_uInd, unsigned int i_vInd, int i_weight)
 	m_vertices[i_uInd].m_EdgesToNeighbours.emplace_back(Edge(i_uInd, i_vInd, i_weight));
 	m_vertices[i_vInd].m_EdgesToNeighbours.emplace_back(Edge(i_vInd, i_uInd, i_weight));
 
+	connectEdgesPtrInAdjList(i_uInd, i_vInd);
 }
 
+void Graph::connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd)
+{
+	Edge& u_v = m_vertices[i_uInd].m_EdgesToNeighbours.back();
+	Edge& v_u = m_vertices[i_vInd].m_EdgesToNeighbours.back();
+
+	u_v.m_same_edge_undirected = &(v_u);
+	v_u.m_same_edge_undirected = &(u_v);
+}
 bool Graph::newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, int i_weight)
 {
 	try
