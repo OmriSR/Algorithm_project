@@ -4,6 +4,7 @@
 #include <list>
 #include <iostream>
 #include <stdlib.h>
+using namespace std;
 
 enum error{not_a_new_edge, negative_vertex, not_int, vertex_out_of_range};
 
@@ -51,7 +52,11 @@ private:
 		unsigned int m_connected_component_Rep = 0;
 		unsigned int         m_neighbors_count = 0;
 		unsigned int              m_identifier = 0;
+
+
 		list<Edge>			   m_EdgesToNeighbours;
+
+
 
 		friend class Graph;
 	public:
@@ -63,28 +68,31 @@ private:
 		}
 	};//END of Class Vertex
 
+
 	vector<Vertex> m_vertices;  
 
+
+	std::vector<Graph::Edge> MakeUniqueEdgeVec();
+	static void quicksort(std::vector<Graph::Edge>& lst, std::vector<Graph::Edge>::iterator Left, std::vector<Graph::Edge>::iterator Right);
+	static std::vector<Graph::Edge>::iterator partition(std::vector<Graph::Edge>& lst, std::vector<Graph::Edge>::iterator Left, std::vector<Graph::Edge>::iterator Right);
 public:
 
 	Graph(unsigned int num)
 	{
 		MakeEmpty(num);
 	}
-
 	void MakeEmpty(unsigned int Vertices);
 	bool IsAdjacent(unsigned int i_u, unsigned int i_v);
 	bool isVertexInNeighboursList(unsigned int i_u, unsigned int i_v);
 	void AddEdge(unsigned int U, unsigned int V, int weight);
 	//RemoveEdge(unsigned int U,unsigned int V)
+
 	bool isNumAnInt(int i_vertex);
 	bool isVertexInRange(int i_vertex, int i_start, int i_end);
 	bool newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, int i_weight);
 	void connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd);
-
-
-
 	std::vector<Graph::Edge> GetAllEdges();
 	const list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }
-};
+
+}
 

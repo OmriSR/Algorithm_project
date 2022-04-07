@@ -93,7 +93,7 @@ void MinHeap::updateHeapNodesDualPtr(const int& i_ind1, const int& i_ind2)
 void MinHeap::build(HeapNode* i_heapBaseArr, int i_size)
 {
 
-	MinHeap(i_heapBaseArr, i_size);
+//	MinHeap(i_heapBaseArr, i_size);
 }
 
 MinHeap::MinHeap(int* i_verticesWeightToTreeArr, int i_size)
