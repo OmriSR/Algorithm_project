@@ -6,6 +6,8 @@
 #include <stdlib.h>
 using namespace std;
 
+enum error{not_a_new_edge, negative_vertex, not_int, vertex_out_of_range};
+
 class Graph
 {
 public:
@@ -31,10 +33,10 @@ public:
 			m_ignore =   false;
 			m_isBridge = false;
 		}
-		int getWeight()
+		int getWeight()                         // both set and get method are unnecessary while Edge is public.
 		{
 			return m_weight;
-		}
+		}                           
 		void setWeight(const int& i_weight)
 		{
 			m_weight = i_weight;
@@ -84,7 +86,19 @@ public:
 	bool isVertexInNeighboursList(unsigned int i_u, unsigned int i_v);
 	void AddEdge(unsigned int U, unsigned int V, int weight);
 	//RemoveEdge(unsigned int U,unsigned int V)
+
 	std::vector<Graph::Edge> GetAllEdges_Ordered();
 	const std::list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }
 };
+
+
+	bool isNumAnInt(int i_vertex);
+	bool isVertexInRange(int i_vertex, int i_start, int i_end);
+	bool newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, int i_weight);
+	void connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd);
+//std::vector<Graph::Edge> GetAllEdges();
+	const list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }
+
+}
+
 
