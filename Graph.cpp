@@ -32,7 +32,7 @@ std::vector<Graph::Edge> Graph::MakeUniqueEdgeVec()
 
 	for (const auto& V : m_vertices)
 	{
-		for (const auto& E : V.m_EdgesToNeighours)
+		for (const auto& E : V.m_EdgesToNeighbours)
 			if (AllEdgesSet.end() != AllEdgesSet.find(E.unordered_name))
 			{
 				AllEdgesVec.emplace_back(E);
@@ -63,7 +63,10 @@ bool Graph::isVertexInNeighboursList(unsigned int i_vertexToFind, unsigned int i
 	}
 }
 
-void Graph::quicksort(std::vector<Graph::Edge>& Edgevec, std::vector<Graph::Edge>::iterator Left, std::vector<Graph::Edge>::iterator Right)
+
+
+void Graph::quicksort(std::vector<Graph::Edge>& Edgevec,const  std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right)
+
 {
 	if (Left >= Right) return;
 	if (Edgevec.size() <= 1) return;
@@ -73,24 +76,19 @@ void Graph::quicksort(std::vector<Graph::Edge>& Edgevec, std::vector<Graph::Edge
 	quicksort(Edgevec, Left, pivot - 1);
 }
 
-vector<Graph::Edge>::iterator Graph::partition(std::vector<Graph::Edge>& Edgevec, std::vector<Graph::Edge>::iterator Left, std::vector<Graph::Edge>::iterator Right)
-{
-	std::vector<Graph::Edge>::iterator current = Right, pivot = Left;
+std::vector<Graph::Edge>::iterator Graph::partition(std::vector<Graph::Edge>& Edgevec, const std::vector<Graph::Edge>::iterator& Left,const  std::vector<Graph::Edge>::iterator& Right)
 
-	for (; current != pivot;)
-	{
-		if (current->getWeight() < pivot->getWeight())
-		{
-			std::swap(*current, *pivot);
-			++current;
-		}
-		else if (current->getWeight() > pivot->getWeight())
-		{
-			std::swap(*current, *pivot);
-			--current;
+{
+	std::vector<Graph::Edge>::iterator pivot = std::prev(Right,1), moving_obj = Left;
+
+	for (auto j = Left; j != pivot; ++j) {
+		// bool format 
+		if (*j<*pivot) {
+			std::swap(*moving_obj++, *j);
 		}
 	}
-	return pivot;
+	std::swap(*moving_obj, *pivot);
+	return moving_obj;
 }
 
 void Graph::addEdge(unsigned int i_uInd, unsigned int i_vInd, unsigned int i_weight)

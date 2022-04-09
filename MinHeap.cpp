@@ -119,7 +119,7 @@ MinHeap::HeapNode* MinHeap::getHeap()
 
 MinHeap::HeapNode& MinHeap::deleteMin()
 {
-	if (m_heapSize < 1);//handle error
+	//if (m_heapSize < 1);//handle error
 
 	HeapNode min = m_heapArr[0];
 

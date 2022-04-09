@@ -7,7 +7,21 @@ void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight);
 
 int main()
 {
-	//cout << inputhandler()();
+
+
+	vector<Graph::Edge> testvec;
+	//debug qs
+	testvec.push_back(Graph::Edge(1, 2, 200));
+	testvec.push_back(Graph::Edge(1, 4, 5));
+	testvec.push_back(Graph::Edge(2, 4, 300));
+	testvec.push_back(Graph::Edge(3, 4, -5));
+	testvec.push_back(Graph::Edge(2, 3, 0));
+	testvec.push_back(Graph::Edge(2, 6, -300));
+	Graph::quicksort(testvec, testvec.begin(), testvec.end());
+	for (int i = 0; i < 5; ++i)
+		cout << testvec[i].getWeight() << endl;
+
+	cout << inputhandler()();
 	int arr[4] = { 4,2,1,-3 };
 	minHeapTest(arr, 1, 1);
 
