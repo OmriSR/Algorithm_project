@@ -5,17 +5,6 @@
 #include "inputhandler.h"
 
 
-
-void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight);
-int main()
-{
-	Graph G;
-	
-	int arr[4] = { 4,2,1,-3 };
-	minHeapTest(arr, 1, 1);
-
-}
-
 void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is now hardcoded! needs to be change befor useage
 	//int arr[4] = { 4,2,1,3 };
 
@@ -41,7 +30,7 @@ void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is
 	//----------decrease key in index (vertexToDekey) to value (newWeight)---------------
 
 	pq.deKey(i_vertexToDekey, i_newWeight);
-	
+
 	heapArr = pq.printPqArr();
 
 	cout << "The min heap array after decreasing from vertex '" << i_vertexToDekey << "' to value " << i_newWeight << " is: " << '\n';
@@ -50,3 +39,14 @@ void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is
 		i < 3 ? cout << heapArr[i] << ", " : cout << heapArr[i] << "." << '\n';
 	}
 }
+
+int main()
+{
+	Graph G;
+	//Kruskal
+	//Prim
+	//removeEdge
+	//another kruskal or is bridge;
+
+}
+

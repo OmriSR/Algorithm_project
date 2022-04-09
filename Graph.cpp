@@ -14,9 +14,7 @@ Graph::Graph()
 {
 	inputhandler  input;
 	MakeEmpty(input());
-	int num_of_edges = input();
-	for (int i = 0; i < num_of_edges; ++i)
-		addEdge(input(), input(), input());
+	SetGraphEdges(input());
 }
 
 std::vector<Graph::Edge> Graph::GetAllEdges_Ordered()
@@ -144,7 +142,7 @@ void Graph::connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd)
 	v_u.m_same_edge_undirected = &(u_v);
 }
 
-bool Graph::removeEdgeValidityCheck(const string& i_u, const string& i_v, list<Graph::Edge>::iterator i_edgeItr)
+void Graph::removeEdgeValidityCheck(const string& i_u, const string& i_v, list<Graph::Edge>::iterator i_edgeItr)
 {
 	try {
 		if ((isNumAnInt(i_u) && isNumAnInt(i_v) == false)) { throw(not_int); }
@@ -178,7 +176,7 @@ bool Graph::removeEdgeValidityCheck(const string& i_u, const string& i_v, list<G
 	}
 }
 
-bool Graph::newEdgeValidityCheck(const string& i_uInd, const string& i_vInd, const string& i_weight)
+void Graph::newEdgeValidityCheck(const string& i_uInd, const string& i_vInd, const string& i_weight)
 {
 	try
 	{
