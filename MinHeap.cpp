@@ -26,11 +26,6 @@ void MinHeap::HeapNode::setWeight(int i_newWeight)
 	m_weightToTree = i_newWeight;
 }
 
-//void MinHeap::HeapNode::setDoualPtr(Edge* twinInEdgeArr)
-//{
-//	m_dualPointer = twinInEdgeArr;
-//}
-
 int MinHeap::getLeftSon(int i_heapNode)
 {
 	return (2 * i_heapNode + 1);
@@ -80,23 +75,7 @@ void MinHeap::updateHeapNodesDualPtr(const int& i_ind1, const int& i_ind2)
 	m_heapPtrArr[i_ind2] = i_ind1;
 }
 
-//void MinHeap::initHeapPtrArr(HeapNode* i_heapBaseArr, int i_size)
-//{
-//	m_heapPtrArr = new int[i_size];
-//
-//	for (int i = 0; i < i_size; ++i)
-//	{
-//		m_heapPtrArr[i_heapBaseArr[i].getVertexNum()] = i;
-//	}
-//}
-
-void MinHeap::build(HeapNode* i_heapBaseArr, int i_size)
-{
-
-//	MinHeap(i_heapBaseArr, i_size);
-}
-
-MinHeap::MinHeap(int* i_verticesWeightToTreeArr, int i_size)
+void MinHeap::build(int* i_verticesWeightToTreeArr, int i_size)
 {
 	m_heapMaxSize = m_heapSize = i_size;
 	m_heapArr = new HeapNode[i_size];
@@ -112,11 +91,15 @@ MinHeap::MinHeap(int* i_verticesWeightToTreeArr, int i_size)
 
 	//initHeapPtrArr(m_heapArr, i_size);
 
-	for (int i = (i_size / 2 -1); i >= 0; --i)
+	for (int i = (i_size / 2 - 1); i >= 0; --i)
 	{
 		fixHeap(i);
 	}
+}
 
+MinHeap::MinHeap(int* i_verticesWeightToTreeArr, int i_size)
+{
+	build(i_verticesWeightToTreeArr, i_size);
 }
 
 MinHeap::~MinHeap()

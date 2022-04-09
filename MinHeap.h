@@ -54,9 +54,9 @@ public:
 		}
 		return arr;
 	}
-
-	void build(HeapNode* i_heapBaseArr, int i_size);
 	//------------------------------------------------
+
+	void build(int* i_verticesWeightToTreeArr, int i_size);
 
 	MinHeap(int* i_heapBaseArr, int i_size);
 

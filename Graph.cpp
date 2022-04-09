@@ -1,6 +1,6 @@
 #include "Graph.h"
-
-using namespace std;
+#include <ctype.h>
+#include <string>
 
 void Graph::MakeEmpty(unsigned int i_numOfVertices)
 {
@@ -18,7 +18,7 @@ std::vector<Graph::Edge> Graph::GetAllEdges_Ordered()
 	std::vector<Graph::Edge> AllEdgesVec = MakeUniqueEdgeVec();
 
 
-	quicksort(AllEdgesVec, AllEdgesVec.begin(), AllEdgesVec.end());
+	Graph::quicksort(AllEdgesVec, AllEdgesVec.begin(), AllEdgesVec.end());
 	
 	return AllEdgesVec;
 }
@@ -56,7 +56,7 @@ bool Graph::isVertexInNeighboursList(unsigned int i_vertexToFind, unsigned int i
 {
 	for (const auto& curNeighbour : m_vertices[i_neighboursListVertex].m_EdgesToNeighbours)
 	{
-		if (curNeighbour.m_src == i_vertexToFind)
+		if (curNeighbour.m_dst == i_vertexToFind)
 		{
 			return true;
 		}
@@ -64,7 +64,9 @@ bool Graph::isVertexInNeighboursList(unsigned int i_vertexToFind, unsigned int i
 }
 
 
+
 void Graph::quicksort(std::vector<Graph::Edge>& Edgevec,const  std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right)
+
 {
 	if (Left >= Right) return;
 	if (Edgevec.size() <= 1) return;
@@ -73,7 +75,9 @@ void Graph::quicksort(std::vector<Graph::Edge>& Edgevec,const  std::vector<Graph
 	quicksort(Edgevec, pivot + 1, Right);
 	quicksort(Edgevec, Left, pivot - 1);
 }
+
 std::vector<Graph::Edge>::iterator Graph::partition(std::vector<Graph::Edge>& Edgevec, const std::vector<Graph::Edge>::iterator& Left,const  std::vector<Graph::Edge>::iterator& Right)
+
 {
 	std::vector<Graph::Edge>::iterator pivot = std::prev(Right,1), moving_obj = Left;
 
@@ -87,15 +91,42 @@ std::vector<Graph::Edge>::iterator Graph::partition(std::vector<Graph::Edge>& Ed
 	return moving_obj;
 }
 
-void Graph::AddEdge(unsigned int i_uInd, unsigned int i_vInd, int weight)
-
+void Graph::addEdge(unsigned int i_uInd, unsigned int i_vInd, unsigned int i_weight)
 {
-	newEdgeValidityCheck(i_uInd, i_vInd, i_weight);
+	newEdgeValidityCheck(to_string(i_uInd), to_string(i_vInd), to_string(i_weight));
 
 	m_vertices[i_uInd].m_EdgesToNeighbours.emplace_back(Edge(i_uInd, i_vInd, i_weight));
 	m_vertices[i_vInd].m_EdgesToNeighbours.emplace_back(Edge(i_vInd, i_uInd, i_weight));
 
 	connectEdgesPtrInAdjList(i_uInd, i_vInd);
+}
+
+void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
+{
+	list<Edge>::iterator toRemoveItr;
+
+	(i_u > -1) ?																											   // if i_u is a valid index
+		findEdgeInAdjacentList(m_vertices[i_u].m_EdgesToNeighbours.begin(), m_vertices[i_u].m_EdgesToNeighbours.end(), i_v)	  //(u,v) - find iterator to edge that needs to be removes
+		: toRemoveItr = m_vertices[i_u].m_EdgesToNeighbours.end();															 //if not a propper massage will be printed to console from metod removeEdgeValidityCheck
+	
+	removeEdgeValidityCheck(to_string(i_u), to_string(i_u), toRemoveItr);
+
+	Edge identicalEdgeToRemove = *(*toRemoveItr).m_same_edge_undirected;  /* (v,u) - undirected graph*/
+
+	m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove);    
+	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
+}
+
+list<Graph::Edge>::iterator Graph::findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent)
+{
+	for (; i_first != i_last; ++i_first)
+	{
+		if ((*i_first).getDestination() == i_ajacent)
+		{
+			return i_first;
+		}
+	}
+	return i_last;
 }
 
 void Graph::connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd)
@@ -106,14 +137,51 @@ void Graph::connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd)
 	u_v.m_same_edge_undirected = &(v_u);
 	v_u.m_same_edge_undirected = &(u_v);
 }
-bool Graph::newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, int i_weight)
+
+bool Graph::removeEdgeValidityCheck(const string& i_u, const string& i_v, list<Graph::Edge>::iterator i_edgeItr)
+{
+	try {
+		if ((isNumAnInt(i_u) && isNumAnInt(i_v) == false)) { throw(not_int); }
+		int u = stoi(i_u), v = stoi(i_v);
+
+		if (i_edgeItr == m_vertices[u].m_EdgesToNeighbours.end()) { throw not_a_vertex; }
+		if (u < 0 || v < 0) { throw(negative_vertex); }
+		if ((isVertexInRange(v, 1, m_vertices.size()) && isVertexInRange(u, 1, m_vertices.size()) == false)) { throw(vertex_out_of_range); }
+	}
+	catch (int i_error)
+	{
+		switch (i_error)
+		{
+		case 1:
+			cout << "The vertices must be a non-negative!";
+			break;
+		case 2:
+			cout << "The vertices must be an integer!";
+			break;
+		case 3:
+			cout << "The vertices must be in between 1 and " << m_vertices.size();
+			break;
+		case 4:
+			cout << "The given edge does not exist";
+			break;
+		default:
+			cout << "An error occurred.";
+			break;
+		}
+		exit(1);
+	}
+}
+
+bool Graph::newEdgeValidityCheck(const string& i_uInd, const string& i_vInd, const string& i_weight)
 {
 	try
 	{
-		if (isVertexInNeighboursList(i_uInd, i_vInd) == true) {throw(not_a_new_edge);}
-		if (i_uInd < 0 || i_vInd < 0) {throw(negative_vertex);}
-		if ((isNumAnInt(i_uInd) && isNumAnInt(i_vInd) && isNumAnInt(i_weight)) == false) {throw(not_int);}
-		if ((isVertexInRange(i_vInd, 1, m_vertices.size()) && isVertexInRange(i_uInd, 1, m_vertices.size()) == false)) {throw(vertex_out_of_range);}
+		if ((isNumAnInt(i_uInd) && isNumAnInt(i_vInd) && isNumAnInt(i_weight)) == false) { throw(not_int); }
+		int u = stoi(i_uInd), v = stoi(i_uInd), weight = stoi(i_weight);
+
+		if (isVertexInNeighboursList(u, v) == true) {throw(not_a_new_edge);}
+		if (u < 0 || v < 0) {throw(negative_vertex);}
+		if ((isVertexInRange(v, 1, m_vertices.size()) && isVertexInRange(u, 1, m_vertices.size()) == false)) {throw(vertex_out_of_range);}
 	}
 	catch (int i_error)
 	{
@@ -129,7 +197,7 @@ bool Graph::newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, int i
 			cout << "The vertices and weight must be an integer!";
 			break;
 		case 3:
-			cout << "The vertices must be in between 1 and n";
+			cout << "The vertices must be in between 1 and " << m_vertices.size();
 			break;
 		default:
 			cout << "An error occurred.";
@@ -139,13 +207,24 @@ bool Graph::newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, int i
 	}
 }
 
-bool Graph::isNumAnInt(int i_vertex)
+bool Graph::isNumAnInt(const string& i_vertex)   //// needs to be a string format to check if float with out auto casting
 {
-	return (typeid(i_vertex).name() == typeid(int).name());
+	for (int i = 0; i < i_vertex.size(); ++i)
+	{
+		if (isdigit(i_vertex[i] == false))
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 bool Graph::isVertexInRange(int i_vertex, int i_start, int i_end)
 {
 	return (i_vertex <= i_end && i_vertex >= i_start);
 }
+
+
+
+
 
