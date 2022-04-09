@@ -3,8 +3,6 @@
 #include "inputhandler.h"
 #include "Graph.h"
 
-using namespace std;
-
 void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight);
 
 int main()
