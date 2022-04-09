@@ -1,6 +1,5 @@
 #include "Graph.h"
-#include <ctype.h>
-#include <string>
+
 
 void Graph::MakeEmpty(unsigned int i_numOfVertices)
 {
@@ -10,6 +9,14 @@ void Graph::MakeEmpty(unsigned int i_numOfVertices)
 	{
 		m_vertices.emplace_back(Vertex(i));
 	}
+}
+Graph::Graph()
+{
+	inputhandler  input;
+	MakeEmpty(input());
+	int num_of_edges = input();
+	for (int i = 0; i < num_of_edges; ++i)
+		addEdge(input(), input(), input());
 }
 
 std::vector<Graph::Edge> Graph::GetAllEdges_Ordered()
@@ -46,8 +53,8 @@ std::vector<Graph::Edge> Graph::MakeUniqueEdgeVec()
 
 bool Graph::IsAdjacent(unsigned int i_uInd, unsigned int i_vInd)
 {
-	unsigned int u_numOfNeighbours = m_vertices[i_uInd].m_neighbors_count;
-	unsigned int v_numOfNeighbours = m_vertices[i_vInd].m_neighbors_count;
+	unsigned int u_numOfNeighbours = m_vertices[i_uInd].m_EdgesToNeighbours.size();
+	unsigned int v_numOfNeighbours = m_vertices[i_vInd].m_EdgesToNeighbours.size();
 	
 	return u_numOfNeighbours > v_numOfNeighbours ? isVertexInNeighboursList(i_uInd, i_vInd) : isVertexInNeighboursList(i_vInd, i_uInd);
 }
@@ -61,9 +68,8 @@ bool Graph::isVertexInNeighboursList(unsigned int i_vertexToFind, unsigned int i
 			return true;
 		}
 	}
+	return false;
 }
-
-
 
 void Graph::quicksort(std::vector<Graph::Edge>& Edgevec,const  std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right)
 
@@ -72,8 +78,8 @@ void Graph::quicksort(std::vector<Graph::Edge>& Edgevec,const  std::vector<Graph
 	if (Edgevec.size() <= 1) return;
 
 	std::vector<Graph::Edge>::iterator pivot = partition(Edgevec, Left, Right);
-	quicksort(Edgevec, pivot + 1, Right);
-	quicksort(Edgevec, Left, pivot - 1);
+	quicksort(Edgevec, Left, pivot);
+	quicksort(Edgevec, pivot+1, Right);
 }
 
 std::vector<Graph::Edge>::iterator Graph::partition(std::vector<Graph::Edge>& Edgevec, const std::vector<Graph::Edge>::iterator& Left,const  std::vector<Graph::Edge>::iterator& Right)
@@ -91,13 +97,13 @@ std::vector<Graph::Edge>::iterator Graph::partition(std::vector<Graph::Edge>& Ed
 	return moving_obj;
 }
 
-void Graph::addEdge(unsigned int i_uInd, unsigned int i_vInd, unsigned int i_weight)
-{
+void Graph::addEdge(int i_weight, unsigned int i_vInd, unsigned int i_uInd )
+{	
 	newEdgeValidityCheck(to_string(i_uInd), to_string(i_vInd), to_string(i_weight));
 
 	m_vertices[i_uInd].m_EdgesToNeighbours.emplace_back(Edge(i_uInd, i_vInd, i_weight));
 	m_vertices[i_vInd].m_EdgesToNeighbours.emplace_back(Edge(i_vInd, i_uInd, i_weight));
-
+	
 	connectEdgesPtrInAdjList(i_uInd, i_vInd);
 }
 
@@ -113,8 +119,8 @@ void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 
 	Edge identicalEdgeToRemove = *(*toRemoveItr).m_same_edge_undirected;  /* (v,u) - undirected graph*/
 
-//	m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove);    
-//	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
+ //   m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove);    
+      m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
 }
 
 list<Graph::Edge>::iterator Graph::findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent)
@@ -146,7 +152,7 @@ bool Graph::removeEdgeValidityCheck(const string& i_u, const string& i_v, list<G
 
 		if (i_edgeItr == m_vertices[u].m_EdgesToNeighbours.end()) { throw not_a_vertex; }
 		if (u < 0 || v < 0) { throw(negative_vertex); }
-		if ((isVertexInRange(v, 1, m_vertices.size()) && isVertexInRange(u, 1, m_vertices.size()) == false)) { throw(vertex_out_of_range); }
+		if ((isVertexInRange(v, 1, int(m_vertices.size())) && isVertexInRange(u, 1, int(m_vertices.size())) == false)) { throw(vertex_out_of_range); }
 	}
 	catch (int i_error)
 	{
@@ -181,7 +187,7 @@ bool Graph::newEdgeValidityCheck(const string& i_uInd, const string& i_vInd, con
 
 		if (isVertexInNeighboursList(u, v) == true) {throw(not_a_new_edge);}
 		if (u < 0 || v < 0) {throw(negative_vertex);}
-		if ((isVertexInRange(v, 1, m_vertices.size()) && isVertexInRange(u, 1, m_vertices.size()) == false)) {throw(vertex_out_of_range);}
+		if ((isVertexInRange(v, 1, int(m_vertices.size())) && isVertexInRange(u, 1, int(m_vertices.size())) == false)) {throw(vertex_out_of_range);}
 	}
 	catch (int i_error)
 	{
@@ -225,6 +231,14 @@ bool Graph::isVertexInRange(int i_vertex, int i_start, int i_end)
 }
 
 
+void Graph::SetGraphEdges(unsigned int num)
+{
+	inputhandler input;
+	for (unsigned int i = 0; i < num; ++i)
+	{
+		addEdge(input(), input(), input());
+	}
+}
 
 
 

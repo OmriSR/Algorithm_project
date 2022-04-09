@@ -1,9 +1,11 @@
 #pragma once
+#include "inputhandler.h"
 #include <vector>
 #include <set>
 #include <list>
-#include <iostream>
-#include <stdlib.h>
+#include <ctype.h>
+#include <string>
+
 using namespace std;
 
 enum error{not_a_new_edge, negative_vertex, not_int, vertex_out_of_range, not_a_vertex};
@@ -54,7 +56,6 @@ private:
 	class Vertex
 	{
 		unsigned int m_connected_component_Rep = 0;
-		unsigned int         m_neighbors_count = 0;
 		unsigned int              m_identifier = 0;
 
 		list<Edge>			   m_EdgesToNeighbours;
@@ -66,10 +67,8 @@ private:
 		{
 			m_identifier = id;
 			m_connected_component_Rep = id;
-			m_neighbors_count = 0;
 		}
 	};//END of Class Vertex
-
 
 	vector<Vertex> m_vertices;
 
@@ -83,13 +82,12 @@ public://FOR TESTING, put back in private after
 public:
 	void MakeEmpty(unsigned int i_numOfVertices);
 
-	Graph(unsigned int num)
-	{
-		MakeEmpty(num);
-	}
+	Graph();
+
+	void SetGraphEdges(unsigned int num);
 	bool IsAdjacent(unsigned int i_u, unsigned int i_v);
 	bool isVertexInNeighboursList(unsigned int i_u, unsigned int i_v);
-	void addEdge(unsigned int i_u, unsigned int i_v, unsigned int i_weight);
+	void addEdge( int i_weight, unsigned int i_v, unsigned int i_u );
 	void removeEdge(unsigned int i_u, unsigned int i_v);
 
 	bool isNumAnInt(const string& i_vertex);
@@ -100,7 +98,7 @@ public:
 	bool isVertexInRange(int i_vertex, int i_start, int i_end);
 	bool newEdgeValidityCheck(const string& i_uInd, const string& i_vInd, const string&  i_weight);
 	bool removeEdgeValidityCheck(const string& i_uInd, const string& i_vInd, list<Graph::Edge>::iterator i_edgeItr);
-
+	
 	void connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd);
 //std::vector<Graph::Edge> GetAllEdges();
 	list<Graph::Edge>::iterator findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent);
