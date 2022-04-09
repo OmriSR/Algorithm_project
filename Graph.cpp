@@ -113,8 +113,8 @@ void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 
 	Edge identicalEdgeToRemove = *(*toRemoveItr).m_same_edge_undirected;  /* (v,u) - undirected graph*/
 
-	m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove);    
-	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
+//	m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove);    
+//	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
 }
 
 list<Graph::Edge>::iterator Graph::findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent)
