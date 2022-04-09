@@ -7,7 +7,7 @@ void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight);
 
 int main()
 {
-	cout << inputhandler()();
+	//cout << inputhandler()();
 	int arr[4] = { 4,2,1,-3 };
 	minHeapTest(arr, 1, 1);
 

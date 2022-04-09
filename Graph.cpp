@@ -1,4 +1,6 @@
 #include "Graph.h"
+#include <ctype.h>
+#include <string>
 
 void Graph::MakeEmpty(unsigned int i_numOfVertices)
 {
@@ -93,7 +95,7 @@ vector<Graph::Edge>::iterator Graph::partition(std::vector<Graph::Edge>& Edgevec
 
 void Graph::addEdge(unsigned int i_uInd, unsigned int i_vInd, unsigned int i_weight)
 {
-	newEdgeValidityCheck(i_uInd, i_vInd, i_weight);
+	newEdgeValidityCheck(to_string(i_uInd), to_string(i_vInd), to_string(i_weight));
 
 	m_vertices[i_uInd].m_EdgesToNeighbours.emplace_back(Edge(i_uInd, i_vInd, i_weight));
 	m_vertices[i_vInd].m_EdgesToNeighbours.emplace_back(Edge(i_vInd, i_uInd, i_weight));
@@ -109,7 +111,7 @@ void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 		findEdgeInAdjacentList(m_vertices[i_u].m_EdgesToNeighbours.begin(), m_vertices[i_u].m_EdgesToNeighbours.end(), i_v)	  //(u,v) - find iterator to edge that needs to be removes
 		: toRemoveItr = m_vertices[i_u].m_EdgesToNeighbours.end();															 //if not a propper massage will be printed to console from metod removeEdgeValidityCheck
 	
-	removeEdgeValidityCheck(i_u, i_u, toRemoveItr);
+	removeEdgeValidityCheck(to_string(i_u), to_string(i_u), toRemoveItr);
 
 	Edge identicalEdgeToRemove = *(*toRemoveItr).m_same_edge_undirected;  /* (v,u) - undirected graph*/
 
@@ -138,13 +140,15 @@ void Graph::connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd)
 	v_u.m_same_edge_undirected = &(u_v);
 }
 
-bool Graph::removeEdgeValidityCheck(unsigned int i_u, unsigned int i_v, list<Graph::Edge>::iterator i_edgeItr)
+bool Graph::removeEdgeValidityCheck(const string& i_u, const string& i_v, list<Graph::Edge>::iterator i_edgeItr)
 {
 	try {
-		if (i_edgeItr == m_vertices[i_u].m_EdgesToNeighbours.end()) { throw not_a_vertex; }
-		if (i_u < 0 || i_v < 0) { throw(negative_vertex); }
 		if ((isNumAnInt(i_u) && isNumAnInt(i_v) == false)) { throw(not_int); }
-		if ((isVertexInRange(i_v, 1, m_vertices.size()) && isVertexInRange(i_u, 1, m_vertices.size()) == false)) { throw(vertex_out_of_range); }
+		int u = stoi(i_u), v = stoi(i_v);
+
+		if (i_edgeItr == m_vertices[u].m_EdgesToNeighbours.end()) { throw not_a_vertex; }
+		if (u < 0 || v < 0) { throw(negative_vertex); }
+		if ((isVertexInRange(v, 1, m_vertices.size()) && isVertexInRange(u, 1, m_vertices.size()) == false)) { throw(vertex_out_of_range); }
 	}
 	catch (int i_error)
 	{
@@ -170,14 +174,16 @@ bool Graph::removeEdgeValidityCheck(unsigned int i_u, unsigned int i_v, list<Gra
 	}
 }
 
-bool Graph::newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, unsigned int i_weight)
+bool Graph::newEdgeValidityCheck(const string& i_uInd, const string& i_vInd, const string& i_weight)
 {
 	try
 	{
-		if (isVertexInNeighboursList(i_uInd, i_vInd) == true) {throw(not_a_new_edge);}
-		if (i_uInd < 0 || i_vInd < 0) {throw(negative_vertex);}
-		if ((isNumAnInt(i_uInd) && isNumAnInt(i_vInd) && isNumAnInt(i_weight)) == false) {throw(not_int);}
-		if ((isVertexInRange(i_vInd, 1, m_vertices.size()) && isVertexInRange(i_uInd, 1, m_vertices.size()) == false)) {throw(vertex_out_of_range);}
+		if ((isNumAnInt(i_uInd) && isNumAnInt(i_vInd) && isNumAnInt(i_weight)) == false) { throw(not_int); }
+		int u = stoi(i_uInd), v = stoi(i_uInd), weight = stoi(i_weight);
+
+		if (isVertexInNeighboursList(u, v) == true) {throw(not_a_new_edge);}
+		if (u < 0 || v < 0) {throw(negative_vertex);}
+		if ((isVertexInRange(v, 1, m_vertices.size()) && isVertexInRange(u, 1, m_vertices.size()) == false)) {throw(vertex_out_of_range);}
 	}
 	catch (int i_error)
 	{
@@ -203,9 +209,16 @@ bool Graph::newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, unsig
 	}
 }
 
-bool Graph::isNumAnInt(int i_vertex)   //// needs to be a string format to check if float with out auto casting
+bool Graph::isNumAnInt(const string& i_vertex)   //// needs to be a string format to check if float with out auto casting
 {
-	return (typeid(i_vertex).name() == typeid(int).name());
+	for (int i = 0; i < i_vertex.size(); ++i)
+	{
+		if (isdigit(i_vertex[i] == false))
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 bool Graph::isVertexInRange(int i_vertex, int i_start, int i_end)

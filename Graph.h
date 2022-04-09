@@ -89,10 +89,10 @@ public:
 	void addEdge(unsigned int i_u, unsigned int i_v, unsigned int i_weight);
 	void removeEdge(unsigned int i_u, unsigned int i_v);
 
-	bool isNumAnInt(int i_vertex);
+	bool isNumAnInt(const string& i_vertex);
 	bool isVertexInRange(int i_vertex, int i_start, int i_end);
-	bool newEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, unsigned int i_weight);
-	bool removeEdgeValidityCheck(unsigned int i_uInd, unsigned int i_vInd, list<Graph::Edge>::iterator i_edgeItr);
+	bool newEdgeValidityCheck(const string& i_uInd, const string& i_vInd, const string&  i_weight);
+	bool removeEdgeValidityCheck(const string& i_uInd, const string& i_vInd, list<Graph::Edge>::iterator i_edgeItr);
 
 	void connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd);
 	std::vector<Graph::Edge> GetAllEdges();
