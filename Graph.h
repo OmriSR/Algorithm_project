@@ -96,7 +96,6 @@ public:
 
 	std::vector<Graph::Edge> GetAllEdges_Ordered();
 	const std::list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }
-};
 
 	bool isVertexInRange(int i_vertex, int i_start, int i_end);
 	bool newEdgeValidityCheck(const string& i_uInd, const string& i_vInd, const string&  i_weight);
@@ -104,8 +103,6 @@ public:
 
 	void connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd);
 //std::vector<Graph::Edge> GetAllEdges();
-	const list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }
 	list<Graph::Edge>::iterator findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent);
-
 };
 
