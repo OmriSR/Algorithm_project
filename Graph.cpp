@@ -98,7 +98,7 @@ std::vector<Graph::Edge>::iterator Graph::partition(std::vector<Graph::Edge>& Ed
 void Graph::addEdge(int i_weight, unsigned int i_vInd, unsigned int i_uInd )
 {	
 	newEdgeValidityCheck(to_string(i_uInd), to_string(i_vInd), to_string(i_weight));
-
+	
 	m_vertices[i_uInd].m_EdgesToNeighbours.emplace_back(Edge(i_uInd, i_vInd, i_weight));
 	m_vertices[i_vInd].m_EdgesToNeighbours.emplace_back(Edge(i_vInd, i_uInd, i_weight));
 	
@@ -150,7 +150,7 @@ void Graph::removeEdgeValidityCheck(const string& i_u, const string& i_v, list<G
 
 		if (i_edgeItr == m_vertices[u].m_EdgesToNeighbours.end()) { throw not_a_vertex; }
 		if (u < 0 || v < 0) { throw(negative_vertex); }
-		if ((isVertexInRange(v, 1, int(m_vertices.size())) && isVertexInRange(u, 1, int(m_vertices.size())) == false)) { throw(vertex_out_of_range); }
+		if ((isVertexInRange(v, int(m_vertices.size()) && isVertexInRange(u, int(m_vertices.size())) == false))) { throw(vertex_out_of_range); }
 	}
 	catch (int i_error)
 	{
@@ -181,11 +181,10 @@ void Graph::newEdgeValidityCheck(const string& i_uInd, const string& i_vInd, con
 	try
 	{
 		if ((isNumAnInt(i_uInd) && isNumAnInt(i_vInd) && isNumAnInt(i_weight)) == false) { throw(not_int); }
-		int u = stoi(i_uInd), v = stoi(i_uInd), weight = stoi(i_weight);
-
-		if (isVertexInNeighboursList(u, v) == true) {throw(not_a_new_edge);}
+		int u = stoi(i_uInd), v = stoi(i_vInd), weight = stoi(i_weight);
 		if (u < 0 || v < 0) {throw(negative_vertex);}
-		if ((isVertexInRange(v, 1, int(m_vertices.size())) && isVertexInRange(u, 1, int(m_vertices.size())) == false)) {throw(vertex_out_of_range);}
+		if (!(isVertexInRange(v, int(m_vertices.size())) && isVertexInRange(u, int(m_vertices.size()))))	{throw(vertex_out_of_range);}
+		if (isVertexInNeighboursList(u, v) == true) { throw(not_a_new_edge); }
 	}
 	catch (int i_error)
 	{
@@ -223,9 +222,9 @@ bool Graph::isNumAnInt(const string& i_vertex)   //// needs to be a string forma
 	return true;
 }
 
-bool Graph::isVertexInRange(int i_vertex, int i_start, int i_end)
+bool Graph::isVertexInRange(int i_vertex, int i_end)
 {
-	return (i_vertex <= i_end && i_vertex >= i_start);
+	return (i_vertex <= i_end && i_vertex >= 0);
 }
 
 

@@ -83,7 +83,7 @@ private:
 	bool IsAdjacent(unsigned int i_u, unsigned int i_v);
 	bool isVertexInNeighboursList(unsigned int i_u, unsigned int i_v);
 	bool isNumAnInt(const string& i_vertex);
-	bool isVertexInRange(int i_vertex, int i_start, int i_end);
+	bool isVertexInRange(int i_vertex, int i_end);
 
 	void addEdge(int i_weight, unsigned int i_v, unsigned int i_u);
 	void removeEdge(unsigned int i_u, unsigned int i_v);
