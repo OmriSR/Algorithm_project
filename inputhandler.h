@@ -2,9 +2,10 @@
 #include <iostream>
 #include <stdlib.h>
 #include <algorithm>
+
+using namespace std;
 class inputhandler
 {
-	int input;
 public:
 	int operator()()
 	{
@@ -14,17 +15,12 @@ public:
 		if (!are_digits)
 		{
 			system("cls");
-			cout << "invalid input" << endl;
+			std::cout << "invalid input" << endl;
 			exit(1);
 		}
 		return atoi(str.c_str());		
 	}
-	friend std::ostream& operator<<(std::ostream& os, const inputhandler& me);
+
 };
 
-ostream& operator<<(ostream& os, const inputhandler& me)
-{
-	os << me.input;
-	return os;
-}
 
