@@ -15,6 +15,11 @@ Graph::Graph()
 {
 	inputhandler  input;
 	MakeEmpty(input());
+	if (m_vertices.size() == 0)
+	{
+		cout << "Empty graph given!";
+		exit(1);
+	}
 	SetGraphEdges(input());
 }
 
@@ -217,7 +222,6 @@ bool Graph::isVertexInRange(int i_vertex, int i_end)
 {
 	return (i_vertex <= i_end && i_vertex >= 0);
 }
-
 
 void Graph::SetGraphEdges(unsigned int num)
 {
