@@ -8,7 +8,7 @@
 
 using namespace std;
 
-enum error{not_a_new_edge, negative_vertex, not_int, vertex_out_of_range, not_a_vertex};
+enum  error{ not_a_new_edge, negative_vertex, not_int, vertex_out_of_range, not_a_vertex};
 
 class Graph
 {
@@ -91,8 +91,8 @@ private:
 
 	const std::list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }
 
-	void newEdgeValidityCheck(const string& i_uInd, const string& i_vInd, const string& i_weight);
-	void removeEdgeValidityCheck(const string& i_uInd, const string& i_vInd, list<Graph::Edge>::iterator i_edgeItr);
+	void newEdgeValidityCheck(int i_uInd, int i_vInd, int i_weight);
+	void removeEdgeValidityCheck(int i_u, int i_v, list<Graph::Edge>::iterator i_edgeItr);
 	list<Graph::Edge>::iterator findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent);
 
 public:

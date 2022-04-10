@@ -10,6 +10,7 @@ void Graph::MakeEmpty(unsigned int i_numOfVertices)
 		m_vertices.emplace_back(Vertex(i));
 	}
 }
+
 Graph::Graph()
 {
 	inputhandler  input;
@@ -59,7 +60,7 @@ bool Graph::IsAdjacent(unsigned int i_uInd, unsigned int i_vInd)
 
 bool Graph::isVertexInNeighboursList(unsigned int i_vertexToFind, unsigned int i_neighboursListVertex)
 {
-	for (const auto& curNeighbour : m_vertices[i_neighboursListVertex].m_EdgesToNeighbours)
+	for (const auto& curNeighbour : m_vertices[i_neighboursListVertex].m_EdgesToNeighbours)   // if empty begin() == end() and wont get in the loop (hopefully)
 	{
 		if (curNeighbour.m_dst == i_vertexToFind)
 		{
@@ -97,7 +98,7 @@ std::vector<Graph::Edge>::iterator Graph::partition(std::vector<Graph::Edge>& Ed
 
 void Graph::addEdge(int i_weight, unsigned int i_vInd, unsigned int i_uInd )
 {	
-	newEdgeValidityCheck(to_string(i_uInd), to_string(i_vInd), to_string(i_weight));
+	newEdgeValidityCheck(i_uInd, i_vInd, i_weight);
 	
 	m_vertices[i_uInd].m_EdgesToNeighbours.emplace_back(Edge(i_uInd, i_vInd, i_weight));
 	m_vertices[i_vInd].m_EdgesToNeighbours.emplace_back(Edge(i_vInd, i_uInd, i_weight));
@@ -113,7 +114,7 @@ void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 		findEdgeInAdjacentList(m_vertices[i_u].m_EdgesToNeighbours.begin(), m_vertices[i_u].m_EdgesToNeighbours.end(), i_v)	  //(u,v) - find iterator to edge that needs to be removes
 		: toRemoveItr = m_vertices[i_u].m_EdgesToNeighbours.end();															 //if not a propper massage will be printed to console from metod removeEdgeValidityCheck
 	
-	removeEdgeValidityCheck(to_string(i_u), to_string(i_u), toRemoveItr);
+	removeEdgeValidityCheck(i_u, i_u, toRemoveItr);
 
 	Edge identicalEdgeToRemove = *(*toRemoveItr).m_same_edge_undirected;  /* (v,u) - undirected graph*/
 
@@ -142,25 +143,19 @@ void Graph::connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd)
 	v_u.m_same_edge_undirected = &(u_v);
 }
 
-void Graph::removeEdgeValidityCheck(const string& i_u, const string& i_v, list<Graph::Edge>::iterator i_edgeItr)
+void Graph::removeEdgeValidityCheck(int i_u, int i_v, list<Graph::Edge>::iterator i_edgeItr)
 {
 	try {
-		if ((isNumAnInt(i_u) && isNumAnInt(i_v) == false)) { throw(not_int); }
-		int u = stoi(i_u), v = stoi(i_v);
-
-		if (i_edgeItr == m_vertices[u].m_EdgesToNeighbours.end()) { throw not_a_vertex; }
-		if (u < 0 || v < 0) { throw(negative_vertex); }
-		if ((isVertexInRange(v, int(m_vertices.size()) && isVertexInRange(u, int(m_vertices.size())) == false))) { throw(vertex_out_of_range); }
+		if (i_edgeItr == m_vertices[i_u].m_EdgesToNeighbours.end()) { throw not_a_vertex; }
+		if (i_u < 0 || i_v < 0) { throw(negative_vertex); }
+		if ((isVertexInRange(i_v, int(m_vertices.size()) && isVertexInRange(i_u, int(m_vertices.size())) == false))) { throw(vertex_out_of_range); }
 	}
-	catch (int i_error)
+	catch (error& i_error)
 	{
 		switch (i_error)
 		{
 		case 1:
 			cout << "The vertices must be a non-negative!";
-			break;
-		case 2:
-			cout << "The vertices must be an integer!";
 			break;
 		case 3:
 			cout << "The vertices must be in between 1 and " << m_vertices.size();
@@ -176,31 +171,27 @@ void Graph::removeEdgeValidityCheck(const string& i_u, const string& i_v, list<G
 	}
 }
 
-void Graph::newEdgeValidityCheck(const string& i_uInd, const string& i_vInd, const string& i_weight)
+void Graph::newEdgeValidityCheck(int i_u, int i_v, int i_weight)
 {
 	try
 	{
-		if ((isNumAnInt(i_uInd) && isNumAnInt(i_vInd) && isNumAnInt(i_weight)) == false) { throw(not_int); }
-		int u = stoi(i_uInd), v = stoi(i_vInd), weight = stoi(i_weight);
-		if (u < 0 || v < 0) {throw(negative_vertex);}
-		if (!(isVertexInRange(v, int(m_vertices.size())) && isVertexInRange(u, int(m_vertices.size()))))	{throw(vertex_out_of_range);}
-		if (isVertexInNeighboursList(u, v) == true) { throw(not_a_new_edge); }
+		if (i_u < 0 || i_v < 0) { throw(negative_vertex); }
+		else if (!(isVertexInRange(i_v, int(m_vertices.size()) - 1) && isVertexInRange(i_u, int(m_vertices.size() - 1)))) { throw(vertex_out_of_range); }
+		else if (isVertexInNeighboursList(i_u, i_v) == true) throw(not_a_new_edge);
 	}
-	catch (int i_error)
+
+	catch (error& i_error)
 	{
 		switch (i_error)
 		{
 		case 0:
-			cout << "The vertex (" << i_uInd << "," << i_vInd << ") already exist in the graph!";
+			cout << "The vertex (" << i_u << "," << i_v << ") already exist in the graph!";
 			break;
 		case 1:
 			cout << "The vertices must be a non-negative!";
 			break;
-		case 2:
-			cout << "The vertices and weight must be an integer!";
-			break;
 		case 3:
-			cout << "The vertices must be in between 1 and " << m_vertices.size();
+			cout << "The vertices must be in between 1 and " << m_vertices.size() << ".";
 			break;
 		default:
 			cout << "An error occurred.";
