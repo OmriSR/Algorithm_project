@@ -3,7 +3,7 @@
 #include "PriorityQueue.h"
 #include "Graph.h"
 #include "inputhandler.h"
-
+#include "MST.h"
 
 void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is now hardcoded! needs to be change befor useage
 	//int arr[4] = { 4,2,1,3 };
@@ -43,6 +43,14 @@ void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is
 int main()
 {
 	Graph G;
+	if (G.getIsForest() == true); // handle forest of tree
+
+	MST::Parent* result = MST::prim(G);
+
+	for (int i = 0; i < G.getNumOfVertices(); ++i)
+	{
+		cout << result[i].myParent << '\n';
+	}
 	//Kruskal
 	//Prim
 	//removeEdge

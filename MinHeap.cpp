@@ -117,15 +117,19 @@ MinHeap::HeapNode* MinHeap::getHeap()
 	return m_heapArr;
 }
 
-MinHeap::HeapNode& MinHeap::deleteMin()
+unsigned int MinHeap::deleteMin()           // returns  index
 {
-	//if (m_heapSize < 1);//handle error
+	if (m_heapSize < 1)
+	{
+		cout << "trying to access empty heap!";
+		exit(1);
+	}
 
 	HeapNode min = m_heapArr[0];
 
 	m_heapArr[0] = m_heapArr[--m_heapSize];
 	fixHeap(0);
-	return min;
+	return min.getVertexNum();
 }
 
 void MinHeap::insert(HeapNode i_node)

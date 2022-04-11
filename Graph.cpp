@@ -3,6 +3,8 @@
 
 void Graph::MakeEmpty(unsigned int i_numOfVertices)
 {
+	validateNumOfVertices(i_numOfVertices);
+
 	m_vertices.reserve(i_numOfVertices);
 	
 	for (unsigned int i = 0; i < i_numOfVertices; ++i)   
@@ -11,15 +13,32 @@ void Graph::MakeEmpty(unsigned int i_numOfVertices)
 	}
 }
 
+void Graph::validateNumOfVertices(unsigned int i_numOfVertices)
+{
+	bool error = false;
+
+	if (i_numOfVertices < 0)
+	{
+		cout << "Number of vertices must be positive!";
+		error = true;
+	}
+	else if (i_numOfVertices == 0)
+	{
+		cout << "Empty graph given!";
+		error = true;
+	}
+
+	if (error == true)
+	{
+		exit(1);
+	}
+}
+
 Graph::Graph()
 {
 	inputhandler  input;
 	MakeEmpty(input());
-	if (m_vertices.size() == 0)
-	{
-		cout << "Empty graph given!";
-		exit(1);
-	}
+
 	SetGraphEdges(input());
 }
 
@@ -226,9 +245,35 @@ bool Graph::isVertexInRange(int i_vertex, int i_end)
 void Graph::SetGraphEdges(unsigned int num)
 {
 	inputhandler input;
+
+	validateNumOfEdges(num);
+
 	for (unsigned int i = 0; i < num; ++i)
 	{
 		addEdge(input(), input(), input());
+	}
+
+	if (num == 0)
+	{
+		m_isForest = true;
+	}
+}
+
+void Graph::validateNumOfEdges(unsigned int num)
+{
+	if (num < 0)
+	{
+		cout << "Number of edges must me positive!";
+		exit(1);
+	}
+	if (m_vertices.size() == 1 && num != 0)
+	{
+		cout << "Simple graph is required -> no inner edges allowed.";
+		exit(1);
+	}
+	if (num == 0)
+	{
+		m_isForest = true;
 	}
 }
 
