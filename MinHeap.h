@@ -38,8 +38,6 @@ private:
 
 	void updateHeapNodesDualPtr(const int& i_ind1, const int& i_ind2);
 
-	//void initHeapPtrArr(HeapNode* i_heapBaseArr, int i_size);
-
 public:
 	// ---------------testing------------------
 	int* printHeapWeightsArr()

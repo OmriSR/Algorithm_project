@@ -37,6 +37,7 @@ public:
 			m_isBridge = false;
 		}
 		inline unsigned int getDstVertex() const { return m_dst; }
+		inline unsigned int getSrcVertex() const { return m_src; }
 		inline int getWeight()const                         // both set and get method are unnecessary while Edge is public.
 		{
 			return m_weight;
@@ -49,9 +50,11 @@ public:
 		{
 			return m_weight < Other.m_weight;
 		}//for sorting edges with kruskal
+		friend inline bool operator==(const Edge& i_edge,const Edge& i_otherEdge) { return i_edge.m_dst == i_otherEdge.m_dst; }
 		inline unsigned int getDestination() { return m_dst; }
 
 	};//END of Class Edge
+
 private:
 	class Vertex
 	{
@@ -76,10 +79,11 @@ private:
 	vector<Vertex> m_vertices;
 	bool m_isForest = false;
 
-	/*---------------member functions---------------*/
+	/*---------------private member functions---------------*/
 	static void quicksort(std::vector<Graph::Edge>& edgevec, const std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
 	static std::vector<Graph::Edge>::iterator partition(std::vector<Graph::Edge>& lst,const  std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
 	std::vector<Graph::Edge> MakeUniqueEdgeVec();
+	list<Graph::Edge>::iterator findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent);
 
 	void MakeEmpty(unsigned int i_numOfVertices);
 	void SetGraphEdges(unsigned int num);
@@ -90,12 +94,10 @@ private:
 	bool isVertexInRange(int i_vertex, int i_end);
 
 	void addEdge(int i_weight, unsigned int i_v, unsigned int i_u);
-	void removeEdge(unsigned int i_u, unsigned int i_v);
 	void connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd);
 
 	const std::list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }
 
-	list<Graph::Edge>::iterator findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent);
 
 	/*-----------validity checks---------------*/
 	void validateNumOfVertices(unsigned int i_numOfVertices);
@@ -110,6 +112,7 @@ public:
 	inline int getNumOfVertices() const {  return  m_vertices.size(); }
 	inline const vector<Vertex>& getVerticesVec() const { return m_vertices; }
 	inline bool getIsForest() { return m_isForest; }
+	void removeEdge(unsigned int i_u, unsigned int i_v);
 
 };
 

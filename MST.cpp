@@ -7,8 +7,8 @@ void MST::init(const Graph& i_graph, int* o_minEdgeToTreeFromVertex, MST::Parent
 	for (int i = 1; i < numOfVertex; ++i)		      /* min weight to tree initialazition*/
 	{
 		o_minEdgeToTreeFromVertex[i] = INFI;
-		o_parent[i].myParent = NULL;
-		o_parent[i].weightToParent = INFI;
+		o_parent[i].m_myParent = NULL;
+		o_parent[i].m_weightToParent = INFI;
 		o_inTree[i] = false;
 	}
 }
@@ -24,8 +24,8 @@ MST::Parent* MST::prim(const Graph& i_graph)
 	int treeRoot = 0;									 /*Arbitrary choice of starting index*/
 
 	minEdgeToTreeFromVertex[treeRoot] = 0;				/* roots self-distanse to tree is zero*/
-	parent[treeRoot].myParent = NULL;					/* the root has no parent*/
-	parent[treeRoot].weightToParent = 0;
+	parent[treeRoot].m_myParent = -1;					/* the root has no parent*/
+	parent[treeRoot].m_weightToParent = 0;
 
 	init(i_graph, minEdgeToTreeFromVertex, parent, inTree);
 
@@ -45,7 +45,7 @@ MST::Parent* MST::prim(const Graph& i_graph)
 
 			if (term1 && term2)   /* if edge (currVertex(inTree),currNeighbour(outTree))'s weight is less then the weight updated in the minWeightToTree arr*/
 			{
-				updateParentAndWeight(PQ_weightToTree, curNeighbour, minEdgeToTreeFromVertex, parent, curVertex);
+				updateParentArr(PQ_weightToTree, curNeighbour, minEdgeToTreeFromVertex, parent, curVertex);
 			}
 		}
 	}
@@ -53,10 +53,22 @@ MST::Parent* MST::prim(const Graph& i_graph)
 	return parent;
 }
 
-void MST::updateParentAndWeight(PriorityQueue& o_PQ_weightToTree, const Graph::Edge& o_curNeighbour, int* o_minEdgeToTreeFromVertex, MST::Parent* o_parent, int o_curVertex)
+void MST::updateParentArr(PriorityQueue& o_PQ_weightToTree, const Graph::Edge& o_curNeighbour, int* o_minEdgeToTreeFromVertex, MST::Parent* o_parent, int o_curVertex)
 {
 	o_minEdgeToTreeFromVertex[o_curNeighbour.getDstVertex()] = o_curNeighbour.getWeight();
-	o_parent[o_curNeighbour.getDstVertex()].myParent = o_curVertex;
-	o_parent[o_curNeighbour.getDstVertex()].weightToParent = o_curNeighbour.getWeight();
+	o_parent[o_curNeighbour.getDstVertex()].m_myParent = o_curVertex;
+	o_parent[o_curNeighbour.getDstVertex()].m_weightToParent = o_curNeighbour.getWeight();
 	o_PQ_weightToTree.decreaseKey(o_curNeighbour.getDstVertex(), o_minEdgeToTreeFromVertex[o_curNeighbour.getDstVertex()]);
+}
+
+void MST::checkForMst(Parent* i_parentsArr, const Graph& i_g)
+{
+	for (int i = 0; i < i_g.getNumOfVertices(); ++i)
+	{
+		if (i_parentsArr[i].m_myParent == -1)
+		{
+			cout << "MST does not exist";
+			exit(1);
+		}
+	}
 }
