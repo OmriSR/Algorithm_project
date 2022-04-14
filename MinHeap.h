@@ -19,7 +19,6 @@ class MinHeap
 		void setVertexNum(int i_vertex_num);
 		int getWeight();
 		void setWeight(int i_newWeight);
-//		void setDoualPtr(Edge* twinInEdgeArr);
 		friend MinHeap;
 	};
 
@@ -38,8 +37,6 @@ private:
 	void fixHeap(int i_heapNode);
 
 	void updateHeapNodesDualPtr(const int& i_ind1, const int& i_ind2);
-
-	//void initHeapPtrArr(HeapNode* i_heapBaseArr, int i_size);
 
 public:
 	// ---------------testing------------------
@@ -64,7 +61,7 @@ public:
 
 	HeapNode* getHeap();
 
-	HeapNode& deleteMin();
+	unsigned int deleteMin();
 
 	void insert(HeapNode i_node);
 

@@ -16,5 +16,11 @@ public:
 	{
 		m_myHeap.decreaseKey(i_nodeIndex, i_newWeight);
 	}
+
+	inline bool isEmpty() { return m_myHeap.isEmpty(); }
+
+	inline unsigned int getMinWeightVertex() { return m_myHeap.deleteMin(); }
+
+	inline void decreaseKey(unsigned int i_node, int i_newWeight) { return m_myHeap.decreaseKey(i_node, i_newWeight); }
 };
 

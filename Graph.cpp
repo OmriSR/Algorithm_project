@@ -3,6 +3,8 @@
 
 void Graph::MakeEmpty(unsigned int i_numOfVertices)
 {
+	validateNumOfVertices(i_numOfVertices);
+
 	m_vertices.reserve(i_numOfVertices);
 	
 	for (unsigned int i = 0; i < i_numOfVertices; ++i)   
@@ -11,15 +13,32 @@ void Graph::MakeEmpty(unsigned int i_numOfVertices)
 	}
 }
 
+void Graph::validateNumOfVertices(unsigned int i_numOfVertices)
+{
+	bool error = false;
+
+	if (i_numOfVertices < 0)
+	{
+		cout << "Number of vertices must be positive!";
+		error = true;
+	}
+	else if (i_numOfVertices == 0)
+	{
+		cout << "Empty graph given!";
+		error = true;
+	}
+
+	if (error == true)
+	{
+		exit(1);
+	}
+}
+
 Graph::Graph()
 {
 	inputhandler  input;
 	MakeEmpty(input());
-	if (m_vertices.size() == 0)
-	{
-		cout << "Empty graph given!";
-		exit(1);
-	}
+
 	SetGraphEdges(input());
 }
 
@@ -115,16 +134,19 @@ void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 {
 	list<Edge>::iterator toRemoveItr;
 
-	(i_u > -1) ?																											   // if i_u is a valid index
-		findEdgeInAdjacentList(m_vertices[i_u].m_EdgesToNeighbours.begin(), m_vertices[i_u].m_EdgesToNeighbours.end(), i_v)	  //(u,v) - find iterator to edge that needs to be removes
-		: toRemoveItr = m_vertices[i_u].m_EdgesToNeighbours.end();															 //if not a propper massage will be printed to console from metod removeEdgeValidityCheck
-	
+// if i_u is a valid index ? (u,v) - find iterator to edge that needs to be removes : else a propper massage will be printed to console from metod removeEdgeValidityCheck
+	toRemoveItr = (i_u >= 0) ?
+		findEdgeInAdjacentList(m_vertices[i_u].m_EdgesToNeighbours.begin(), m_vertices[i_u].m_EdgesToNeighbours.end(), i_v):
+		toRemoveItr = m_vertices[i_u].m_EdgesToNeighbours.end();
+
 	removeEdgeValidityCheck(i_u, i_u, toRemoveItr);
 
 	Edge identicalEdgeToRemove = *(*toRemoveItr).m_same_edge_undirected;  /* (v,u) - undirected graph*/
 
- //   m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove);    
-      m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
+	bool (Graph::*isInAdjacentList)(unsigned int, unsigned int);
+
+	m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove);    
+	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
 }
 
 list<Graph::Edge>::iterator Graph::findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent)
@@ -226,9 +248,35 @@ bool Graph::isVertexInRange(int i_vertex, int i_end)
 void Graph::SetGraphEdges(unsigned int num)
 {
 	inputhandler input;
+
+	validateNumOfEdges(num);
+
 	for (unsigned int i = 0; i < num; ++i)
 	{
-		addEdge(input(), input(), input());
+		addEdge(input(), input(), input());   
+	}
+
+	if (num == 0)
+	{
+		m_isForest = true;
+	}
+}
+
+void Graph::validateNumOfEdges(unsigned int num)
+{
+	if (num < 0)
+	{
+		cout << "Number of edges must me positive!";
+		exit(1);
+	}
+	if (m_vertices.size() == 1 && num != 0)
+	{
+		cout << "Simple graph is required -> no inner edges allowed.";
+		exit(1);
+	}
+	if (num == 0)
+	{
+		m_isForest = true;
 	}
 }
 
