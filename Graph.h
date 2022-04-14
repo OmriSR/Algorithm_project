@@ -77,7 +77,7 @@ private:
 	};//END of Class Vertex
 
 	vector<Vertex> m_vertices;
-	bool m_isForest = false;
+	bool m_notconnected = false;
 
 	/*---------------private member functions---------------*/
 	static void quicksort(std::vector<Graph::Edge>& edgevec, const std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
@@ -109,9 +109,16 @@ private:
 public:
 	Graph();
 	std::vector<Graph::Edge> GetAllEdges_Ordered();
-	inline int getNumOfVertices() const {  return  m_vertices.size(); }
+	inline int getNumOfVertices() const {  return  int(m_vertices.size()); }
 	inline const vector<Vertex>& getVerticesVec() const { return m_vertices; }
-	inline bool getIsForest() { return m_isForest; }
+	inline void handleIsForest() {
+		if (m_notconnected)
+		{
+			system("cls");
+			std::cout << "invalid input" << endl;
+			exit(1);
+		}	
+	}
 	void removeEdge(unsigned int i_u, unsigned int i_v);
 
 };

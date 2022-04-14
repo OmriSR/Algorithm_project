@@ -143,8 +143,6 @@ void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 
 	Edge identicalEdgeToRemove = *(*toRemoveItr).m_same_edge_undirected;  /* (v,u) - undirected graph*/
 
-	bool (Graph::*isInAdjacentList)(unsigned int, unsigned int);
-
 	m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove);    
 	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
 }
@@ -253,12 +251,13 @@ void Graph::SetGraphEdges(unsigned int num)
 
 	for (unsigned int i = 0; i < num; ++i)
 	{
-		addEdge(input(), input(), input());   
-	}
+		addEdge(input(), input()-1, input()-1);   // -1 bias since vertices expected in range [1,n]
+	} 							     			  // but will be treated in range [0,n-1] because... computers...
+
 
 	if (num == 0)
 	{
-		m_isForest = true;
+		m_notconnected = true;
 	}
 }
 
@@ -271,12 +270,12 @@ void Graph::validateNumOfEdges(unsigned int num)
 	}
 	if (m_vertices.size() == 1 && num != 0)
 	{
-		cout << "Simple graph is required -> no inner edges allowed.";
+		cout << "Simple graph is required -> no self edges allowed.";
 		exit(1);
 	}
-	if (num == 0)
+	if (num < m_vertices.size()-1)
 	{
-		m_isForest = true;
+		m_notconnected = true;
 	}
 }
 

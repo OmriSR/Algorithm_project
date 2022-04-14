@@ -15,7 +15,9 @@ public:
 	};
 
 	static Parent* prim(const Graph& i_graph);
+	vector<Graph::Edge> kruskal(const Graph& i_graph);
 	static void checkForMst(Parent* i_parentsArr, const Graph& i_g);
+	//checkForMst that receives kruskal retval; --- GAL TODO
 
 private:
 	static void init(const Graph& i_graph, int* o_minEdgeToTreeFromVertex, Parent* o_parent, bool* o_inTree);

@@ -42,7 +42,8 @@ void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is
 int main()
 {
 	Graph G;
-	if (G.getIsForest() == true); // handle forest of tree
+	G.handleIsForest();
+	// handle forest of tree
 
 	MST::Parent* result = MST::prim(G);
 

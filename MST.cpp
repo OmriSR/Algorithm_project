@@ -4,7 +4,7 @@ void MST::init(const Graph& i_graph, int* o_minEdgeToTreeFromVertex, MST::Parent
 {
 	unsigned int numOfVertex = i_graph.getNumOfVertices();
 
-	for (int i = 1; i < numOfVertex; ++i)		      /* min weight to tree initialazition*/
+	for (unsigned int i = 1; i < numOfVertex; ++i)		      /* min weight to tree initialazition*/
 	{
 		o_minEdgeToTreeFromVertex[i] = INFI;
 		o_parent[i].m_myParent = NULL;
@@ -71,4 +71,21 @@ void MST::checkForMst(Parent* i_parentsArr, const Graph& i_g)
 			exit(1);
 		}
 	}
+}
+
+
+vector<Graph::Edge> MST::kruskal(const Graph& i_graph)
+{	 /*-----------------INIT---------------*/
+
+	int num_of_vertices = i_graph.getNumOfVertices();
+
+	vector<Graph::Edge> Edges_Of_MST;
+	Edges_Of_MST.reserve(num_of_vertices - 1 );
+
+	 Disjointed_sets Sets(num_of_vertices);
+	 
+	 for (int i = 0; i < num_of_vertices; ++i)
+			Sets.MakeSet(i);
+	 /*--------------INIT END--------------*/
+	 return Edges_Of_MST;
 }
