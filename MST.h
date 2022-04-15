@@ -4,6 +4,7 @@
 #include "PriorityQueue.h"
 
 enum infinity{INFI = LONG_MAX};
+constexpr short NONE = -1;
 
 class MST
 {
@@ -15,9 +16,26 @@ public:
 	};
 
 	static Parent* prim(const Graph& i_graph);
-	vector<Graph::Edge> kruskal(const Graph& i_graph);
-	static void checkForMst(Parent* i_parentsArr, const Graph& i_g);
-	//checkForMst that receives kruskal retval; --- GAL TODO
+	static vector<Graph::Edge> kruskal(Graph& i_graph);
+	static void checkForMst(Parent* i_parentsArr, const Graph& i_g);//REMOVE
+	static void checkForMst(const vector<Graph::Edge>& , int);//REMOVE
+	static void print_prim(const Parent* P)
+	{
+		unsigned int treeWeight = 0;
+		system("cls");
+		while (P->m_myParent != NONE)
+		{
+			//OMRI ITS YOUR JOB.
+		}
+	}
+	static void print_kruskal(const vector<Graph::Edge>& Tree)
+	{
+		unsigned int treeWeight = 0;
+		system("cls");
+		for (const auto& Edge : Tree) treeWeight += Edge.getWeight();
+
+		cout << endl << "Kruskal: " << treeWeight;
+	}
 
 private:
 	static void init(const Graph& i_graph, int* o_minEdgeToTreeFromVertex, Parent* o_parent, bool* o_inTree);

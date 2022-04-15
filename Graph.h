@@ -1,7 +1,6 @@
 #pragma once
 #include "inputhandler.h"
 #include <vector>
-#include <set>
 #include <list>
 #include <ctype.h>
 #include <string>
@@ -17,7 +16,6 @@ public:
 	{
 		unsigned int                    m_src;
 		unsigned int                    m_dst;
-		std::set<unsigned int>  unordered_name;
 		Edge* m_same_edge_undirected = nullptr;
 		int m_weight = 0;
 		bool m_ignore = false;
@@ -30,8 +28,6 @@ public:
 		{
 			m_src = src;
 			m_dst = dst;
-			unordered_name.insert(src);
-			unordered_name.insert(dst);
 			m_weight = weight;
 			m_ignore = false;
 			m_isBridge = false;
@@ -77,12 +73,12 @@ private:
 	};//END of Class Vertex
 
 	vector<Vertex> m_vertices;
+	vector<Edge> m_edges_unique;
 	bool m_notconnected = false;
 
 	/*---------------private member functions---------------*/
 	static void quicksort(std::vector<Graph::Edge>& edgevec, const std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
 	static std::vector<Graph::Edge>::iterator partition(std::vector<Graph::Edge>& lst,const  std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
-	std::vector<Graph::Edge> MakeUniqueEdgeVec();
 	list<Graph::Edge>::iterator findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent);
 
 	void MakeEmpty(unsigned int i_numOfVertices);
@@ -108,17 +104,10 @@ private:
 
 public:
 	Graph();
-	std::vector<Graph::Edge> GetAllEdges_Ordered();
+	std::vector<Graph::Edge> getuniqueEdges_Ordered();
 	inline int getNumOfVertices() const {  return  int(m_vertices.size()); }
 	inline const vector<Vertex>& getVerticesVec() const { return m_vertices; }
-	inline void handleIsForest() {
-		if (m_notconnected)
-		{
-			system("cls");
-			std::cout << "invalid input" << endl;
-			exit(1);
-		}	
-	}
+	//DFS test return true if graph is connected
 	void removeEdge(unsigned int i_u, unsigned int i_v);
 
 };

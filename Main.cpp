@@ -42,25 +42,23 @@ void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is
 int main()
 {
 	Graph G;
-	G.handleIsForest();
-	// handle forest of tree
-
-	MST::Parent* result = MST::prim(G);
-
-	MST::checkForMst(result, G);
-
-	for (int i = 0; i < G.getNumOfVertices(); ++i)
+	//if(DFS test)
 	{
-		cout << result[i].m_myParent << '\n';
+		MST::Parent* prim_result = MST::prim(G);
+		vector<Graph::Edge> kruskal_result = MST::kruskal(G);
+
+		MST::print_kruskal(kruskal_result);
+		//print result prim
+		
+		//if(DFS test of graph without a selected edge)
+		{
+			//kruskal again
+		}
+		//else
+		{
+			//"edge was a bridge... no mst"
+		}
 	}
-
-
-
-
-	//Kruskal
-	//Prim
-	//removeEdge
-	//another kruskal or is bridge;
-
+	
 }
 
