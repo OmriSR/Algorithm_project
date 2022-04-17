@@ -19,6 +19,7 @@ public:
 			std::cout << "invalid input" << endl;
 			exit(1);
 		}
+		if (str == "2147483647") str[9] = '6'; //maxval reserved for "infinity"
 		return atoi(str.c_str());		
 	}
 

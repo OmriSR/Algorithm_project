@@ -42,37 +42,13 @@ Graph::Graph()
 	SetGraphEdges(input());
 }
 
-std::vector<Graph::Edge> Graph::GetAllEdges_Ordered()
+std::vector<Graph::Edge> Graph::getuniqueEdges_Ordered() 
 {
+	Graph::quicksort(m_edges_unique, m_edges_unique.begin(), m_edges_unique.end());
+	return m_edges_unique;
+} 
 
-	std::vector<Graph::Edge> AllEdgesVec = MakeUniqueEdgeVec();
 
-
-	Graph::quicksort(AllEdgesVec, AllEdgesVec.begin(), AllEdgesVec.end());
-	
-	return AllEdgesVec;
-}
-
-std::vector<Graph::Edge> Graph::MakeUniqueEdgeVec()
-{	
-	long long vert_num = m_vertices.size();
-	std::vector<Graph::Edge> AllEdgesVec;
-	std::set<set<unsigned int>> AllEdgesSet;
-	AllEdgesVec.reserve(vert_num*vert_num); //Worst case Nchoose2 edges  AllEdges.reserve(m_num_of_vertices * (m_num_of_vertices-1))
-
-	for (const auto& V : m_vertices)
-	{
-		for (const auto& E : V.m_EdgesToNeighbours)
-			if (AllEdgesSet.end() != AllEdgesSet.find(E.unordered_name))
-			{
-				AllEdgesVec.emplace_back(E);
-			}
-	}
-
-	AllEdgesVec.shrink_to_fit();
-
-	return AllEdgesVec;
-}
 
 bool Graph::IsAdjacent(unsigned int i_uInd, unsigned int i_vInd)
 {
@@ -95,7 +71,6 @@ bool Graph::isVertexInNeighboursList(unsigned int i_vertexToFind, unsigned int i
 }
 
 void Graph::quicksort(std::vector<Graph::Edge>& Edgevec,const  std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right)
-
 {
 	if (Left >= Right) return;
 	if (Edgevec.size() <= 1) return;
@@ -142,8 +117,6 @@ void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 	removeEdgeValidityCheck(i_u, i_u, toRemoveItr);
 
 	Edge identicalEdgeToRemove = *(*toRemoveItr).m_same_edge_undirected;  /* (v,u) - undirected graph*/
-
-	bool (Graph::*isInAdjacentList)(unsigned int, unsigned int);
 
 	m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove);    
 	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
@@ -250,15 +223,17 @@ void Graph::SetGraphEdges(unsigned int num)
 	inputhandler input;
 
 	validateNumOfEdges(num);
-
+	m_edges_unique.reserve(num);
+	int U, V, weight;
 	for (unsigned int i = 0; i < num; ++i)
 	{
-		addEdge(input(), input(), input());   
-	}
+		addEdge((weight = input()),(V=(input()-1)), (U=(input()-1)));	  // -1 bias since vertices expected in range [1,n]
+		m_edges_unique.emplace_back(U, V, weight);	  // but will be treated in range [0,n-1] because... computers...
+	} 							     			 
 
 	if (num == 0)
 	{
-		m_isForest = true;
+		m_notconnected = true;
 	}
 }
 
@@ -271,12 +246,12 @@ void Graph::validateNumOfEdges(unsigned int num)
 	}
 	if (m_vertices.size() == 1 && num != 0)
 	{
-		cout << "Simple graph is required -> no inner edges allowed.";
+		cout << "Simple graph is required -> no self edges allowed.";
 		exit(1);
 	}
-	if (num == 0)
+	if (num < m_vertices.size()-1)
 	{
-		m_isForest = true;
+		m_notconnected = true;
 	}
 }
 
