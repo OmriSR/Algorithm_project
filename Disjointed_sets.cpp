@@ -2,6 +2,7 @@
 
 Disjointed_sets::Disjointed_sets(unsigned int size)
 {
+	m_size = size;
 	set = new setNode[size];
 	for (unsigned int i = 0; i < size; ++i) MakeSet(i);//init forest of trees
 	homogenous = false;

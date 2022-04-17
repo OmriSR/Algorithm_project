@@ -9,6 +9,7 @@ private:
 		friend class Disjointed_sets;
 	};
 	setNode* set = nullptr;
+	unsigned int m_size;
 	bool homogenous = false;//When there is nothing left to union
 public:
 	Disjointed_sets(unsigned int size);

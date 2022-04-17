@@ -28,7 +28,7 @@ public:
 		{
 			treeWeight += i_P[i].m_weightToParent;
 		}
-		cout << endl << "Prim: " << treeWeight;
+		cout << endl << "Prim: " << treeWeight<<endl;
 	}
 
 
@@ -38,7 +38,7 @@ public:
 		system("cls");
 		for (const auto& Edge : Tree) treeWeight += Edge.getWeight();
 
-		cout << endl << "Kruskal: " << treeWeight;
+		cout << endl << "Kruskal: " << treeWeight<<endl;
 	}
 
 private:

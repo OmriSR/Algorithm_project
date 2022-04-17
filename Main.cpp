@@ -45,29 +45,27 @@ int main()
 	Graph G;
 	ConnectionChecker checker(G);
 
-	if(checker.isConnected() == true)
+	if (checker.isConnected() == false)
 	{
-		MST::Parent* prim_result = MST::prim(G);
-		vector<Graph::Edge> kruskal_result = MST::kruskal(G);
-
-		MST::print_kruskal(kruskal_result);
-
-		MST::print_prim(prim_result,G.getNumOfVertices()-1);
-		
-		//if(DFS test of graph without a selected edge)
-		{
-			//kruskal again
-		}
-		//else
-		{
-			//"edge was a bridge... no mst"
-		}
-	}
-	else
-	{
-		cout << "Given graph is not connected!";
+		cout << "invalid input - graph is not connected therefore no MST";
 		exit(1);
 	}
 	
+	MST::Parent* prim_result = MST::prim(G);
+	vector<Graph::Edge> kruskal_result = MST::kruskal(G);
+	
+	MST::print_kruskal(kruskal_result);
+	
+	MST::print_prim(prim_result,G.getNumOfVertices()-1);
+
+	G.removeEdge(inputhandler()(), inputhandler()());
+
+	if (checker.isConnected() == false)
+	{
+		cout << "invalid input - graph is not connected, edge was a bridge";
+		exit(1);
+	}
+	kruskal_result = MST::kruskal(G);
+	MST::print_kruskal(kruskal_result);
 }
 
