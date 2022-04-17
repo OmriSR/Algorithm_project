@@ -40,8 +40,8 @@ void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is
 	}
 }
 
-int main()
-{
+int main(int argc,char** argv)
+{//define inputhandler and outputhandler based on argv - TODO Gal
 	Graph G;
 	ConnectionChecker checker(G);
 
