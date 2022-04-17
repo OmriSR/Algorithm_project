@@ -1,9 +1,10 @@
 #include "ConnectionChecker.h"
 
-unsigned int ConnectionChecker::dfs()
+bool ConnectionChecker::dfs()
 {
 	VertexData* vertexDataArr = new VertexData[m_numOfVertices];
-	unsigned int currentRoot;
+	unsigned int currentRoot;   
+	unsigned int dfsTreeCount = 0;
 
 	initVerticies(vertexDataArr);
 
@@ -11,12 +12,19 @@ unsigned int ConnectionChecker::dfs()
 	{
 		if (vertexDataArr[i].m_color == colors::white)
 		{
-			currentRoot = i;
-			visit(vertexDataArr,i,currentRoot);
+			++dfsTreeCount;
+			if (dfsTreeCount == 0)
+			{
+				currentRoot = i;
+				visit(vertexDataArr, i, currentRoot);
+			}
+			else
+			{
+				return false;
+			}
 		}
+		return true;
 	}
-
-	return 0;
 }
 
 void ConnectionChecker::initVerticies(ConnectionChecker::VertexData* i_vertexDataArr)

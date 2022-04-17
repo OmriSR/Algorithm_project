@@ -19,8 +19,7 @@ class ConnectionChecker
 	void initVerticies(VertexData* i_vertexDataArr);
 
 public:
-
-
-	unsigned int dfs();
+	inline ConnectionChecker(Graph& i_G) : m_G(i_G) {};
+	bool dfs();
 };
 
