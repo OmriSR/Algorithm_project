@@ -3,6 +3,7 @@
 #include "inputhandler.h"
 #include "MST.h"
 #include <fstream>
+#include "ConnectionChecker.h"
 
 void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is now hardcoded! needs to be change befor useage
 	//int arr[4] = { 4,2,1,3 };
@@ -42,6 +43,7 @@ void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is
 int main()
 {
 	Graph G;
+
 	//if(DFS test)
 	{
 		MST::Parent* prim_result = MST::prim(G);

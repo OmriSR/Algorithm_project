@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConnectionChecker.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="HeapNode.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ConnectionChecker.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="HeapNode.h" />
     <ClInclude Include="inputhandler.h" />
