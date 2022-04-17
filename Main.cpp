@@ -43,14 +43,16 @@ void minHeapTest(int* i_arr, int i_vertexToDekey, int i_newWeight) {  // size is
 int main()
 {
 	Graph G;
+	ConnectionChecker checker(G);
 
-	//if(DFS test)
+	if(checker.isConnected() == true)
 	{
 		MST::Parent* prim_result = MST::prim(G);
 		vector<Graph::Edge> kruskal_result = MST::kruskal(G);
 
 		MST::print_kruskal(kruskal_result);
-		//print result prim
+
+		MST::print_prim(prim_result,G.getNumOfVertices()-1);
 		
 		//if(DFS test of graph without a selected edge)
 		{
@@ -60,6 +62,11 @@ int main()
 		{
 			//"edge was a bridge... no mst"
 		}
+	}
+	else
+	{
+		cout << "Given graph is not connected!";
+		exit(1);
 	}
 	
 }

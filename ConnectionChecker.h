@@ -1,6 +1,8 @@
 #pragma once
 #include "Graph.h"
 
+constexpr short NO_VALUE = -1;
+
 class ConnectionChecker
 {
 	enum class colors { white, grey, black };
@@ -8,7 +10,7 @@ class ConnectionChecker
 	class VertexData
 	{
 		colors m_color = colors::white;
-		int m_root = -1;
+		int m_root = NO_VALUE;
 		friend ConnectionChecker;
 	};
 
@@ -17,9 +19,10 @@ class ConnectionChecker
 
 	void visit(VertexData* i_verticesDataArr, unsigned int i_vertexIndex, unsigned int i_currRoot);
 	void initVerticies(VertexData* i_vertexDataArr);
+	unsigned int dfs();
 
 public:
 	inline ConnectionChecker(Graph& i_G) : m_G(i_G) {};
-	bool dfs();
+	inline bool isConnected() { return (dfs() == 1); }
 };
 

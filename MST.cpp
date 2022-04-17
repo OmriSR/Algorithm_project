@@ -24,7 +24,7 @@ MST::Parent* MST::prim(const Graph& i_graph)
 	int treeRoot = 0;									 /*Arbitrary choice of starting index*/
 
 	minEdgeToTreeFromVertex[treeRoot] = 0;				/* roots self-distanse to tree is zero*/
-	parent[treeRoot].m_myParent = -1;					/* the root has no parent*/
+	parent[treeRoot].m_myParent = 0;					/* the root has no parent*/
 	parent[treeRoot].m_weightToParent = 0;
 
 	init(i_graph, minEdgeToTreeFromVertex, parent, inTree);
@@ -41,7 +41,7 @@ MST::Parent* MST::prim(const Graph& i_graph)
 			int weightOfEdgeToCurNeighbour = curNeighbour.getWeight();
 		
 			bool term1 = weightOfEdgeToCurNeighbour < minEdgeToTreeFromVertex[curNeighbour.getDstVertex()];
-			bool term2 = (inTree[curNeighbour.getDstVertex()] == 0);
+			bool term2 = (inTree[curNeighbour.getDstVertex()] == false);
 
 			if (term1 && term2)   /* if edge (currVertex(inTree),currNeighbour(outTree))'s weight is less then the weight updated in the minWeightToTree arr*/
 			{
@@ -85,7 +85,7 @@ vector<Graph::Edge> MST::kruskal(Graph& i_graph)
 	 for (int i = 0; i < num_of_vertices; ++i)
 			Sets.MakeSet(i);
 	 /*--------------INIT END--------------*/
-	 
+
 	 for (const auto& Edge : Edges_Of_MST_ordered)
 	 {
 		 if (Sets.Find(Edge.getSrcVertex()) != Edge.getDstVertex())
@@ -96,6 +96,7 @@ vector<Graph::Edge> MST::kruskal(Graph& i_graph)
 	 }
 	 return result_MST;
 }
+
 void MST::checkForMst(const vector<Graph::Edge>& edges_mst,int num_of_vertices)
 {
 	if (edges_mst.size() != (size_t(num_of_vertices) - 1))
