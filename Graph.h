@@ -109,6 +109,7 @@ public:
 	inline const vector<Vertex>& getVerticesVec() const { return m_vertices; }
 	//DFS test return true if graph is connected
 	void removeEdge(unsigned int i_u, unsigned int i_v);
+	unsigned int getEdgeCount() { return m_edges_unique.size(); }
 
 };
 

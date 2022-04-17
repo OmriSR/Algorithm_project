@@ -19,15 +19,19 @@ public:
 	static vector<Graph::Edge> kruskal(Graph& i_graph);
 	static void checkForMst(Parent* i_parentsArr, const Graph& i_g);//REMOVE
 	static void checkForMst(const vector<Graph::Edge>& , int);//REMOVE
-	static void print_prim(const Parent* P)
+
+	static void print_prim(const Parent* i_P, const unsigned int i_edgeCount)
 	{
 		unsigned int treeWeight = 0;
-		system("cls");
-		while (P->m_myParent != NONE)
+
+		for (int i = 0; i <= i_edgeCount; ++i)
 		{
-			//OMRI ITS YOUR JOB.
+			treeWeight += i_P[i].m_weightToParent;
 		}
+		cout << endl << "Prim: " << treeWeight;
 	}
+
+
 	static void print_kruskal(const vector<Graph::Edge>& Tree)
 	{
 		unsigned int treeWeight = 0;
