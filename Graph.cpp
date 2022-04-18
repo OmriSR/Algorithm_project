@@ -191,7 +191,7 @@ void Graph::newEdgeValidityCheck(int i_u, int i_v, int i_weight)
 		switch (i_error)
 		{
 		case 0:
-			cout << "The vertex (" << i_u << "," << i_v << ") already exist in the graph!";
+			cout << "The edge (" << i_u << "," << i_v << ") already exist in the graph!";
 			break;
 		case 1:
 			cout << "The vertices must be a non-negative!";

@@ -34,7 +34,8 @@ public:
 	static void exit_with_a_message(string message)
 	{
 		system("cls");
-		cout << message;
+		cout << message<<endl;
+		system("pause");
 		exit(1);
 	}
 };

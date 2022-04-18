@@ -1,6 +1,0 @@
-Kruskal: 1
-
-Prim: 1
-
-Kruskal: 1
-
