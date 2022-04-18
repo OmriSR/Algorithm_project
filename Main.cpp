@@ -8,7 +8,7 @@ ifstream inputhandler::input_file;
 ofstream outputhandler::output_file;
 
 int main(int argc,char** argv)
-{//define inputhandler and outputhandler based on argv - TODO Gal
+{
 	inputhandler::openfile_toread(argv[1]);
 	outputhandler::openfile_towrite(argv[2]);
 
