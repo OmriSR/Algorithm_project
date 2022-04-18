@@ -62,7 +62,7 @@
     <ClInclude Include="Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inputhandler.h">
+    <ClInclude Include="io_handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MST.h">
