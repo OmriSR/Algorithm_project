@@ -24,7 +24,25 @@ int main(int argc,char** argv)
 	
 	MST::print_prim(prim_result,G.getNumOfVertices()-1);
 
-	G.removeEdge(inputhandler()(), inputhandler()());
+	G.removeEdge(inputhandler()()-1, inputhandler()()-1);
+	system("cls");
+
+	/*test------ print adjcent list after removing edge*/
+	for (int i = 0; i < G.getNumOfVertices() ; ++i)
+	{
+		std::cout << i+1 << ": ";
+
+		for (const auto& x : G.getVerticesVec()[i].getEdgesToNeighbours())
+		{
+			cout << x.getDstVertex()+1 << ", ";
+		}
+		cout << '\n';
+	}
+
+	/*text-------print unique*/
+	for (auto& x : G.getUniqueEdges())
+		cout << x.getSrcVertex() << "," << x.getDstVertex() << '\n';
+
 
 	if (checker.isConnected() == false) outputhandler::exit_with_a_message("invalid input - graph is not connected, edge was a bridge");
 	
