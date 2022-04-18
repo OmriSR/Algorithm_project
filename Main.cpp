@@ -20,9 +20,11 @@ int main(int argc,char** argv)
 	MST::Parent* prim_result = MST::prim(G);
 	vector<Graph::Edge> kruskal_result = MST::kruskal(G);
 	
-	MST::print_kruskal(kruskal_result);
+	outputhandler()(MST::print_kruskal(kruskal_result));
 	
-	MST::print_prim(prim_result,G.getNumOfVertices()-1);
+	outputhandler()(MST::print_prim(prim_result,G.getNumOfVertices()-1));
+
+	system("pause");
 
 	G.removeEdge(inputhandler()()-1, inputhandler()()-1);
 	system("cls");
@@ -47,8 +49,9 @@ int main(int argc,char** argv)
 	if (checker.isConnected() == false) outputhandler::exit_with_a_message("invalid input - graph is not connected, edge was a bridge");
 	
 	kruskal_result = MST::kruskal(G);
-	MST::print_kruskal(kruskal_result);
-
+	outputhandler()(MST::print_kruskal(kruskal_result));
+	system("pause");
 	inputhandler::closefile();
+	outputhandler::closefile();
 }
 

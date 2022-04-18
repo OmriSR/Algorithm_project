@@ -62,7 +62,7 @@ public:
 		
 		std::string str;
 	
-		std::getline(input_file, str);
+		input_file >> str;
 		
 		bool are_digits = std::all_of(str[0]=='-'? str.begin()+1 : str.begin(), str.end(), [](char c) { return isdigit(static_cast<unsigned char>(c)); });
 
