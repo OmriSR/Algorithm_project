@@ -20,7 +20,7 @@ public:
 	static void checkForMst(Parent* i_parentsArr, const Graph& i_g);//REMOVE
 	static void checkForMst(const vector<Graph::Edge>& , int);//REMOVE
 
-	static void print_prim(const Parent* i_P, const unsigned int i_edgeCount)
+	static string print_prim(const Parent* i_P, const unsigned int i_edgeCount)
 	{
 		unsigned int treeWeight = 0;
 
@@ -28,17 +28,17 @@ public:
 		{
 			treeWeight += i_P[i].m_weightToParent;
 		}
-		cout << endl << "Prim: " << treeWeight<<endl;
+		return  "Prim: " + to_string(treeWeight) + '\n';
 	}
 
 
-	static void print_kruskal(const vector<Graph::Edge>& Tree)
+	static string print_kruskal(const vector<Graph::Edge>& Tree)
 	{
 		unsigned int treeWeight = 0;
 		system("cls");
 		for (const auto& Edge : Tree) treeWeight += Edge.getWeight();
 
-		cout << endl << "Kruskal: " << treeWeight<<endl;
+		return "Kruskal: " + to_string(treeWeight) + '\n';
 	}
 
 private:
