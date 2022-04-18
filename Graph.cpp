@@ -109,14 +109,20 @@ void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 {
 	list<Edge>::iterator toRemoveItr;
 
-// if i_u is a valid index ? (u,v) - find iterator to edge that needs to be removes : else a propper massage will be printed to console from metod removeEdgeValidityCheck
+ //if i_u is a valid index ? (u,v) - find iterator to edge that needs to be removes : else a propper massage will be printed to console from metod removeEdgeValidityCheck
 	toRemoveItr = (i_u >= 0) ? 
 		findEdgeInAdjacentList(m_vertices[i_u].m_EdgesToNeighbours.begin(), m_vertices[i_u].m_EdgesToNeighbours.end(), i_v):
-		toRemoveItr = m_vertices[i_u].m_EdgesToNeighbours.end();
-	//------^^^^^^ balagan po
+		m_vertices[i_u].m_EdgesToNeighbours.end();
+
 	removeEdgeValidityCheck(i_u, i_u, toRemoveItr);
 
 	Edge identicalEdgeToRemove = *(*toRemoveItr).m_same_edge_undirected;  /* (v,u) - undirected graph*/
+
+	/*remove edge from unique edge vector*/
+	for (int i = 0; i < m_edges_unique.size(); ++i)
+	{
+		if (m_edges_unique[i].m_src == i_v + 1 && m_edges_unique[i].m_dst == i_u + 1) m_edges_unique.erase(m_edges_unique.begin()+i);
+	}
 
 	m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove);    
 	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);

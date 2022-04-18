@@ -104,6 +104,7 @@ private:
 
 public:
 	Graph();
+	vector<Graph::Edge> getUniqueEdges() { return m_edges_unique; }
 	std::vector<Graph::Edge> getuniqueEdges_Ordered();
 	inline int getNumOfVertices() const {  return  int(m_vertices.size()); }
 	inline const vector<Vertex>& getVerticesVec() const { return m_vertices; }
