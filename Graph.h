@@ -91,9 +91,9 @@ private:
 
 	void addEdge(int i_weight, unsigned int i_v, unsigned int i_u);
 	void connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd);
-
-	const std::list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }
-
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	const std::list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }//NO USE! 
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*-----------validity checks---------------*/
 	void validateNumOfVertices(unsigned int i_numOfVertices);

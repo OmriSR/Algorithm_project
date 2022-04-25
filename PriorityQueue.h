@@ -1,7 +1,7 @@
 #pragma once
 #include "MinHeap.h"
 
-class PriorityQueue // make tampleted 
+class PriorityQueue 
 {
 	MinHeap m_myHeap;
 public:
