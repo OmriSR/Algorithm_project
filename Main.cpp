@@ -9,6 +9,11 @@ ofstream outputhandler::output_file;
 
 int main(int argc,char** argv)
 {
+	if (argc != 3)
+	{
+		cout << "invalid input";
+		exit(1);
+	}
 	inputhandler::openfile_toread(argv[1]);
 	outputhandler::openfile_towrite(argv[2]);
 

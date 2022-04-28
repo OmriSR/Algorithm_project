@@ -37,7 +37,7 @@ void ConnectionChecker::visit(VertexData* i_verticesDataArr,unsigned int i_verte
 
 	unsigned int curNeighbourIndex;
 
-	for (auto& curNeighbour : m_G.getVerticesVec()[i_vertexIndex].getEdgesToNeighbours())    /*Go through all current vertex neighbours (=dst vertex in edge) and look for a white vertex*/
+	for (const auto& curNeighbour : m_G.getVerticesVec()[i_vertexIndex].getEdgesToNeighbours())    /*Go through all current vertex neighbours (=dst vertex in edge) and look for a white vertex*/
 	{
 		curNeighbourIndex = curNeighbour.getDstVertex();
 

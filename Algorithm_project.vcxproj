@@ -141,11 +141,9 @@
   <ItemGroup>
     <ClCompile Include="ConnectionChecker.cpp" />
     <ClCompile Include="Graph.cpp" />
-    <ClCompile Include="HeapNode.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MinHeap.cpp" />
     <ClCompile Include="MST.cpp" />
-    <ClCompile Include="mylist.cpp" />
     <ClCompile Include="PriorityQueue.cpp" />
     <ClCompile Include="Disjointed_sets.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -156,7 +154,6 @@
     <ClInclude Include="io_handler.h" />
     <ClInclude Include="MinHeap.h" />
     <ClInclude Include="MST.h" />
-    <ClInclude Include="mylist.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="Disjointed_sets.h" />
     <ClInclude Include="Utils.h" />

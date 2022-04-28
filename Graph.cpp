@@ -44,7 +44,11 @@ Graph::Graph()
 
 std::vector<Graph::Edge> Graph::getuniqueEdges_Ordered() 
 {
-	Graph::quicksort(m_edges_unique, m_edges_unique.begin(), m_edges_unique.end());
+	if (!isordered)
+	{
+		Graph::quicksort(m_edges_unique, m_edges_unique.begin(), m_edges_unique.end());
+		isordered = true;
+	}
 	return m_edges_unique;
 } 
 
@@ -99,18 +103,16 @@ void Graph::addEdge(int i_weight, unsigned int i_vInd, unsigned int i_uInd )
 {	
 	newEdgeValidityCheck(i_uInd, i_vInd, i_weight);
 	
-	m_vertices[i_uInd].m_EdgesToNeighbours.emplace_back(Edge(i_uInd, i_vInd, i_weight));
-	m_vertices[i_vInd].m_EdgesToNeighbours.emplace_back(Edge(i_vInd, i_uInd, i_weight));
+	m_vertices[i_uInd].m_EdgesToNeighbours.push_back(Edge(i_uInd, i_vInd, i_weight));
+	m_vertices[i_vInd].m_EdgesToNeighbours.push_back(Edge(i_vInd, i_uInd, i_weight));
 	
 	connectEdgesPtrInAdjList(i_uInd, i_vInd);
 }
 
 void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 {
-	list<Edge>::iterator toRemoveItr;
-
  //if i_u is a valid index ? (u,v) - find iterator to edge that needs to be removes : else a propper massage will be printed to console from metod removeEdgeValidityCheck
-	toRemoveItr = (i_u >= 0) ? 
+	 list<Edge>::iterator toRemoveItr = (i_u >= 0) ?
 		findEdgeInAdjacentList(m_vertices[i_u].m_EdgesToNeighbours.begin(), m_vertices[i_u].m_EdgesToNeighbours.end(), i_v):
 		m_vertices[i_u].m_EdgesToNeighbours.end();
 
@@ -124,7 +126,7 @@ void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 		if (m_edges_unique[i].m_src == i_v + 1 && m_edges_unique[i].m_dst == i_u + 1) m_edges_unique.erase(m_edges_unique.begin()+i);
 	}
 
-	m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove);    
+	m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove); 
 	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
 }
 

@@ -24,9 +24,6 @@
     <ClCompile Include="MinHeap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HeapNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Disjointed_sets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -40,9 +37,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ConnectionChecker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mylist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -69,9 +63,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConnectionChecker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mylist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

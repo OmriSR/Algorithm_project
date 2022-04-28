@@ -36,7 +36,7 @@ MST::Parent* MST::prim(const Graph& i_graph)
 		int curVertex = PQ_weightToTree.getMinWeightVertex();
 		inTree[curVertex] = true;
 
-		for (auto& curNeighbour : i_graph.getVerticesVec()[curVertex].getEdgesToNeighbours())   /// goes through all of curVertex neighbours.
+		for (const auto& curNeighbour : i_graph.getVerticesVec()[curVertex].getEdgesToNeighbours())   /// goes through all of curVertex neighbours.
 		{
 			int weightOfEdgeToCurNeighbour = curNeighbour.getWeight();
 		

@@ -46,7 +46,7 @@ public:
 		{
 			return m_weight < Other.m_weight;
 		}//for sorting edges with kruskal
-		friend inline bool operator==(const Edge& i_edge,const Edge& i_otherEdge) { return i_edge.m_dst == i_otherEdge.m_dst; }
+	   friend inline bool operator==(const Edge& i_edge,const Edge& i_otherEdge) { return (i_edge.m_dst == i_otherEdge.m_dst) && (i_edge.m_src == i_otherEdge.m_src); }
 		inline unsigned int getDestination() { return m_dst; }
 
 	};//END of Class Edge
@@ -68,13 +68,14 @@ private:
 			m_connected_component_Rep = id;
 		}
 
-		inline const list<Edge>& getEdgesToNeighbours() const { return m_EdgesToNeighbours; }
+		const list<Edge>& getEdgesToNeighbours() const { return m_EdgesToNeighbours; }
 
 	};//END of Class Vertex
 
 	vector<Vertex> m_vertices;
 	vector<Edge> m_edges_unique;
 	bool m_notconnected = false;
+	bool isordered = false;
 
 	/*---------------private member functions---------------*/
 	static void quicksort(std::vector<Graph::Edge>& edgevec, const std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
@@ -92,7 +93,7 @@ private:
 	void addEdge(int i_weight, unsigned int i_v, unsigned int i_u);
 	void connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd);
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	const std::list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }//NO USE! 
+	const list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }//NO USE! 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*-----------validity checks---------------*/

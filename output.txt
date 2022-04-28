@@ -1,0 +1,4 @@
+Kruskal: 3
+
+Prim: 3
+
