@@ -109,7 +109,7 @@ void Graph::addEdge(int i_weight, unsigned int i_vInd, unsigned int i_uInd )
 	connectEdgesPtrInAdjList(i_uInd, i_vInd);
 }
 
-void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
+void Graph::removeEdge(unsigned int i_v, unsigned int i_u)
 {
  //if i_u is a valid index ? (u,v) - find iterator to edge that needs to be removes : else a propper massage will be printed to console from metod removeEdgeValidityCheck
 	 vector<Edge>::iterator toRemoveItr = (i_u >= 0) ?
@@ -129,13 +129,14 @@ void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
 }
 
-vector<Graph::Edge>::iterator Graph::findEdgeInAdjacentList(vector<Graph::Edge>::iterator i_first, vector<Graph::Edge>::iterator i_last, unsigned int i_ajacent)
+vector<Graph::Edge>::iterator Graph::findEdgeInAdjacentList(const vector<Graph::Edge>::iterator& i_first,const vector<Graph::Edge>::iterator& i_last, unsigned int i_ajacent)
 {
-	for (; i_first != i_last; ++i_first)
+	vector<Edge>::iterator runner = i_first;
+	for (; runner != i_last; ++runner)
 	{
-		if ((*i_first).getDestination() == i_ajacent)
+		if (runner->getDestination() == i_ajacent)
 		{
-			return i_first;
+			return runner;
 		}
 	}
 	return i_last;
@@ -146,8 +147,8 @@ void Graph::connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd)
 	vector<Edge>::iterator u_v = prev(m_vertices[i_uInd].m_EdgesToNeighbours.end());
 	vector<Edge>::iterator v_u = prev(m_vertices[i_vInd].m_EdgesToNeighbours.end());
 
-	u_v->m_same_edge_undirected = (v_u);
-	v_u->m_same_edge_undirected = (u_v);
+	u_v->m_same_edge_undirected = v_u;
+	v_u->m_same_edge_undirected = u_v;
 }
 
 void Graph::removeEdgeValidityCheck(int i_u, int i_v, vector<Graph::Edge>::iterator i_edgeItr)
@@ -192,7 +193,7 @@ void Graph::newEdgeValidityCheck(int i_u, int i_v, int i_weight)
 		switch (i_error)
 		{
 		case 0:
-			cout << "invalid input:The edge (" << i_u << "," << i_v << ") already exist in the graph!";
+			cout << "invalid input:The edge (" << i_u + 1 << "," << i_v + 1 << ") already exist in the graph!";
 			break;
 		case 1:
 			cout << "invalid input:The vertices must be a non-negative!";
@@ -231,11 +232,12 @@ void Graph::SetGraphEdges(unsigned int num)
 
 	validateNumOfEdges(num);
 	m_edges_unique.reserve(num);
-	int U, V, weight;
+	unsigned int U, V;
+	int weight;
 	for (unsigned int i = 0; i < num; ++i)
 	{
 		addEdge((weight = input()),(V=(input()-1)), (U=(input()-1)));	  // -1 bias since vertices expected in range [1,n]
-		m_edges_unique.emplace_back(U, V, weight);	  // but will be treated in range [0,n-1] because... computers...
+		m_edges_unique.push_back({ U, V, weight });	  // but will be treated in range [0,n-1] because... computers...
 	} 							     			 
 
 	if (num == 0)

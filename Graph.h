@@ -17,36 +17,32 @@ public:
 		unsigned int                    m_dst;
 		vector<Edge>::iterator m_same_edge_undirected;
 		int m_weight = 0;
-		bool m_ignore = false;
-		bool m_isBridge;
 
 		friend class Graph;
 	
 	public:
-		inline Edge(unsigned int src = 0, unsigned int dst = 0, int weight = 0)
+		Edge(unsigned int src = 0, unsigned int dst = 0, int weight = 0)
 		{
 			m_src = src;
 			m_dst = dst;
 			m_weight = weight;
-			m_ignore = false;
-			m_isBridge = false;
 		}
-		inline unsigned int getDstVertex() const { return m_dst; }
-		inline unsigned int getSrcVertex() const { return m_src; }
-		inline int getWeight()const                         // both set and get method are unnecessary while Edge is public.
+		 unsigned int getDstVertex() const { return m_dst; }
+		 unsigned int getSrcVertex() const { return m_src; }
+		 int getWeight()const                         // both set and get method are unnecessary while Edge is public.
 		{
 			return m_weight;
 		}
-		inline void setWeight(const int& i_weight)
+		 void setWeight(const int& i_weight)
 		{
 			m_weight = i_weight;
 		}
-		inline bool operator<(const Edge& Other)
+		 bool operator<(const Edge& Other)
 		{
 			return m_weight < Other.m_weight;
 		}//for sorting edges with kruskal
-	   friend inline bool operator==(const Edge& i_edge,const Edge& i_otherEdge) { return (i_edge.m_dst == i_otherEdge.m_dst) && (i_edge.m_src == i_otherEdge.m_src); }
-		inline unsigned int getDestination() { return m_dst; }
+	   friend  bool operator==(const Edge& i_edge,const Edge& i_otherEdge) { return (i_edge.m_dst == i_otherEdge.m_dst) && (i_edge.m_src == i_otherEdge.m_src); }
+		 unsigned int getDestination() { return m_dst; }
 
 	};//END of Class Edge
 
@@ -79,7 +75,7 @@ private:
 	/*---------------private member functions---------------*/
 	static void quicksort(std::vector<Graph::Edge>& edgevec, const std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
 	static std::vector<Graph::Edge>::iterator partition(std::vector<Graph::Edge>& lst,const  std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
-	vector<Graph::Edge>::iterator findEdgeInAdjacentList(vector<Graph::Edge>::iterator i_first, vector<Graph::Edge>::iterator i_last, unsigned int i_ajacent);
+	vector<Graph::Edge>::iterator findEdgeInAdjacentList(const vector<Graph::Edge>::iterator& i_first, const vector<Graph::Edge>::iterator& i_last, unsigned int i_ajacent);
 
 	void MakeEmpty(unsigned int i_numOfVertices);
 	void SetGraphEdges(unsigned int num);
