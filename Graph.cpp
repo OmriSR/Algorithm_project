@@ -10,6 +10,7 @@ void Graph::MakeEmpty(unsigned int i_numOfVertices)
 	for (unsigned int i = 0; i < i_numOfVertices; ++i)   
 	{
 		m_vertices.emplace_back(Vertex(i));
+		m_vertices[i].m_EdgesToNeighbours.reserve(i_numOfVertices);
 	}
 }
 
@@ -229,7 +230,7 @@ bool Graph::isVertexInRange(int i_vertex, int i_end)
 void Graph::SetGraphEdges(unsigned int num)
 {
 	inputhandler input;
-
+	
 	validateNumOfEdges(num);
 	m_edges_unique.reserve(num);
 	unsigned int U, V;
@@ -239,6 +240,7 @@ void Graph::SetGraphEdges(unsigned int num)
 		addEdge((weight = input()),(V=(input()-1)), (U=(input()-1)));	  // -1 bias since vertices expected in range [1,n]
 		m_edges_unique.push_back({ U, V, weight });	  // but will be treated in range [0,n-1] because... computers...
 	} 							     			 
+	for (auto& vert : m_vertices) vert.m_EdgesToNeighbours.shrink_to_fit();
 
 	if (num == 0)
 	{

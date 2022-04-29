@@ -27,6 +27,13 @@ public:
 			m_dst = dst;
 			m_weight = weight;
 		}
+		Edge(const Edge& other)
+		{
+			m_src = other.m_src;
+			m_dst = other.m_dst;
+			m_weight = other.m_weight;
+			m_same_edge_undirected = other.m_same_edge_undirected;
+		}
 		 unsigned int getDstVertex() const { return m_dst; }
 		 unsigned int getSrcVertex() const { return m_src; }
 		 int getWeight()const                         // both set and get method are unnecessary while Edge is public.
