@@ -117,7 +117,7 @@ void Graph::removeEdge(unsigned int i_v, unsigned int i_u)
 		findEdgeInAdjacentList(m_vertices[i_u].m_EdgesToNeighbours.begin(), m_vertices[i_u].m_EdgesToNeighbours.end(), i_v):
 		m_vertices[i_u].m_EdgesToNeighbours.end();
 
-	removeEdgeValidityCheck(i_u, i_u, toRemoveItr);
+	removeEdgeValidityCheck(i_u, i_v, toRemoveItr);
 
 	vector<Edge>::iterator identicalEdgeToRemoveItr = toRemoveItr->m_same_edge_undirected;  /* (v,u) - undirected graph*/
 

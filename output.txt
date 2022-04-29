@@ -1,0 +1,4 @@
+Kruskal: 47
+
+Prim: 47
+
