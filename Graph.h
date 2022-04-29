@@ -1,7 +1,6 @@
 #pragma once
 #include "io_handler.h"
 #include <vector>
-#include <list>
 #include <ctype.h>
 #include <string>
 
@@ -16,7 +15,7 @@ public:
 	{
 		unsigned int                    m_src;
 		unsigned int                    m_dst;
-		Edge* m_same_edge_undirected = nullptr;
+		vector<Edge>::iterator m_same_edge_undirected;
 		int m_weight = 0;
 		bool m_ignore = false;
 		bool m_isBridge;
@@ -57,7 +56,7 @@ private:
 		unsigned int m_connected_component_Rep = 0;
 		unsigned int              m_identifier = 0;
 
-		list<Edge>			   m_EdgesToNeighbours;
+		vector<Edge>			   m_EdgesToNeighbours;
 
 		friend class Graph;
 
@@ -68,7 +67,7 @@ private:
 			m_connected_component_Rep = id;
 		}
 
-		const list<Edge>& getEdgesToNeighbours() const { return m_EdgesToNeighbours; }
+		const vector<Edge>& getEdgesToNeighbours() const { return m_EdgesToNeighbours; }
 
 	};//END of Class Vertex
 
@@ -80,7 +79,7 @@ private:
 	/*---------------private member functions---------------*/
 	static void quicksort(std::vector<Graph::Edge>& edgevec, const std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
 	static std::vector<Graph::Edge>::iterator partition(std::vector<Graph::Edge>& lst,const  std::vector<Graph::Edge>::iterator& Left, const std::vector<Graph::Edge>::iterator& Right);
-	list<Graph::Edge>::iterator findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent);
+	vector<Graph::Edge>::iterator findEdgeInAdjacentList(vector<Graph::Edge>::iterator i_first, vector<Graph::Edge>::iterator i_last, unsigned int i_ajacent);
 
 	void MakeEmpty(unsigned int i_numOfVertices);
 	void SetGraphEdges(unsigned int num);
@@ -93,14 +92,14 @@ private:
 	void addEdge(int i_weight, unsigned int i_v, unsigned int i_u);
 	void connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd);
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	const list<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }//NO USE! 
+	const vector<Graph::Edge>& GetAdjList(unsigned int U) { return m_vertices[U].m_EdgesToNeighbours; }//NO USE! 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*-----------validity checks---------------*/
 	void validateNumOfVertices(unsigned int i_numOfVertices);
 	void validateNumOfEdges(unsigned int num);
 	void newEdgeValidityCheck(int i_uInd, int i_vInd, int i_weight);
-	void removeEdgeValidityCheck(int i_u, int i_v, list<Graph::Edge>::iterator i_edgeItr);
+	void removeEdgeValidityCheck(int i_u, int i_v, vector<Graph::Edge>::iterator i_edgeItr);
 
 
 public:

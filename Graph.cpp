@@ -103,8 +103,8 @@ void Graph::addEdge(int i_weight, unsigned int i_vInd, unsigned int i_uInd )
 {	
 	newEdgeValidityCheck(i_uInd, i_vInd, i_weight);
 	
-	m_vertices[i_uInd].m_EdgesToNeighbours.push_back(Edge(i_uInd, i_vInd, i_weight));
-	m_vertices[i_vInd].m_EdgesToNeighbours.push_back(Edge(i_vInd, i_uInd, i_weight));
+	m_vertices[i_uInd].m_EdgesToNeighbours.emplace_back(Edge(i_uInd, i_vInd, i_weight));
+	m_vertices[i_vInd].m_EdgesToNeighbours.emplace_back(Edge(i_vInd, i_uInd, i_weight));
 	
 	connectEdgesPtrInAdjList(i_uInd, i_vInd);
 }
@@ -112,25 +112,24 @@ void Graph::addEdge(int i_weight, unsigned int i_vInd, unsigned int i_uInd )
 void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 {
  //if i_u is a valid index ? (u,v) - find iterator to edge that needs to be removes : else a propper massage will be printed to console from metod removeEdgeValidityCheck
-	 list<Edge>::iterator toRemoveItr = (i_u >= 0) ?
+	 vector<Edge>::iterator toRemoveItr = (i_u >= 0) ?
 		findEdgeInAdjacentList(m_vertices[i_u].m_EdgesToNeighbours.begin(), m_vertices[i_u].m_EdgesToNeighbours.end(), i_v):
 		m_vertices[i_u].m_EdgesToNeighbours.end();
 
 	removeEdgeValidityCheck(i_u, i_u, toRemoveItr);
 
-	Edge identicalEdgeToRemove = *(*toRemoveItr).m_same_edge_undirected;  /* (v,u) - undirected graph*/
+	vector<Edge>::iterator identicalEdgeToRemoveItr = toRemoveItr->m_same_edge_undirected;  /* (v,u) - undirected graph*/
 
 	/*remove edge from unique edge vector*/
 	for (int i = 0; i < m_edges_unique.size(); ++i)
 	{
 		if (m_edges_unique[i].m_src == i_v + 1 && m_edges_unique[i].m_dst == i_u + 1) m_edges_unique.erase(m_edges_unique.begin()+i);
 	}
-
-	m_vertices[i_v].m_EdgesToNeighbours.remove(identicalEdgeToRemove); 
+	m_vertices[i_v].m_EdgesToNeighbours.erase(identicalEdgeToRemoveItr); 
 	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
 }
 
-list<Graph::Edge>::iterator Graph::findEdgeInAdjacentList(list<Graph::Edge>::iterator i_first, list<Graph::Edge>::iterator i_last, unsigned int i_ajacent)
+vector<Graph::Edge>::iterator Graph::findEdgeInAdjacentList(vector<Graph::Edge>::iterator i_first, vector<Graph::Edge>::iterator i_last, unsigned int i_ajacent)
 {
 	for (; i_first != i_last; ++i_first)
 	{
@@ -144,14 +143,14 @@ list<Graph::Edge>::iterator Graph::findEdgeInAdjacentList(list<Graph::Edge>::ite
 
 void Graph::connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd)
 {
-	Edge& u_v = m_vertices[i_uInd].m_EdgesToNeighbours.back();
-	Edge& v_u = m_vertices[i_vInd].m_EdgesToNeighbours.back();
+	vector<Edge>::iterator u_v = prev(m_vertices[i_uInd].m_EdgesToNeighbours.end());
+	vector<Edge>::iterator v_u = prev(m_vertices[i_vInd].m_EdgesToNeighbours.end());
 
-	u_v.m_same_edge_undirected = &(v_u);
-	v_u.m_same_edge_undirected = &(u_v);
+	u_v->m_same_edge_undirected = (v_u);
+	v_u->m_same_edge_undirected = (u_v);
 }
 
-void Graph::removeEdgeValidityCheck(int i_u, int i_v, list<Graph::Edge>::iterator i_edgeItr)
+void Graph::removeEdgeValidityCheck(int i_u, int i_v, vector<Graph::Edge>::iterator i_edgeItr)
 {
 	try {
 		if (i_edgeItr == m_vertices[i_u].m_EdgesToNeighbours.end()) { throw not_a_vertex; }
