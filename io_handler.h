@@ -19,7 +19,7 @@ public:
 		if (output_file.is_open()) output_file.close();
 
 		output_file.open(input_path, ios::out);
-		if (output_file.is_open() == false) exit_with_a_message("input file cannot be open - (path error/system error)");
+		if (output_file.is_open() == false) exit_with_a_message("error:input file cannot be open - (path error/system error)");
 	}
 	static	void closefile()
 	{
@@ -28,7 +28,7 @@ public:
 	void operator()(string message)//writes a line to file and console
 	{
 		cout << message << endl;
-		if (!output_file.is_open()) exit_with_a_message("trying to write to a closed file");
+		if (!output_file.is_open()) exit_with_a_message("error:trying to write to a closed file");
 		output_file << message << endl;
 	}
 	static void exit_with_a_message(string message)
@@ -51,7 +51,7 @@ public:
 		if (input_file.is_open()) input_file.close();
 
 		input_file.open(input_path, ios::in);
-		if (input_file.is_open() == false) outputhandler::exit_with_a_message("input file cannot be open - (path error/system error)");
+		if (input_file.is_open() == false) outputhandler::exit_with_a_message("error:nput file cannot be open - (path error/system error)");
 	}
     static	void closefile()
 	{
@@ -59,7 +59,7 @@ public:
 	}
 	int operator()()//read a line from file
 	{
-		if (input_file.eof()) outputhandler::exit_with_a_message("expected data missing in file");
+		if (input_file.eof()) outputhandler::exit_with_a_message("error: expected data missing in file or file is corrupted");
 		
 		std::string str;
 	

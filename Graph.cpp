@@ -19,12 +19,12 @@ void Graph::validateNumOfVertices(unsigned int i_numOfVertices)
 
 	if (i_numOfVertices < 0)
 	{
-		cout << "Number of vertices must be positive!";
+		cout << "invalid input:Number of vertices must be positive!";
 		error = true;
 	}
 	else if (i_numOfVertices == 0)
 	{
-		cout << "Empty graph given!";
+		cout << "invalid input:Empty graph given!";
 		error = true;
 	}
 
@@ -162,16 +162,16 @@ void Graph::removeEdgeValidityCheck(int i_u, int i_v, vector<Graph::Edge>::itera
 		switch (i_error)
 		{
 		case 1:
-			cout << "The vertices must be a non-negative!";
+			cout << "invalid input:The vertices must be a non-negative!";
 			break;
 		case 3:
-			cout << "The vertices must be in between 1 and " << m_vertices.size();
+			cout << "invalid input:The vertices must be in between 1 and " << m_vertices.size();
 			break;
 		case 4:
-			cout << "The given edge does not exist";
+			cout << "invalid input:The given edge does not exist";
 			break;
 		default:
-			cout << "An error occurred.";
+			cout << "invalid input:An error occurred.";
 			break;
 		}
 		exit(1);
@@ -192,16 +192,16 @@ void Graph::newEdgeValidityCheck(int i_u, int i_v, int i_weight)
 		switch (i_error)
 		{
 		case 0:
-			cout << "The edge (" << i_u << "," << i_v << ") already exist in the graph!";
+			cout << "invalid input:The edge (" << i_u << "," << i_v << ") already exist in the graph!";
 			break;
 		case 1:
-			cout << "The vertices must be a non-negative!";
+			cout << "invalid input:The vertices must be a non-negative!";
 			break;
 		case 3:
-			cout << "The vertices must be in between 1 and " << m_vertices.size() << ".";
+			cout << "invalid input:The vertices must be in between 1 and " << m_vertices.size() << ".";
 			break;
 		default:
-			cout << "An error occurred.";
+			cout << "invalid input:An error occurred.";
 			break;
 		}
 		exit(1);
@@ -248,12 +248,12 @@ void Graph::validateNumOfEdges(unsigned int num)
 {
 	if (num < 0)
 	{
-		cout << "Number of edges must me positive!";
+		cout << "invalid input:Number of edges must me positive!";
 		exit(1);
 	}
 	if (m_vertices.size() == 1 && num != 0)
 	{
-		cout << "Simple graph is required -> no self edges allowed.";
+		cout << "invalid input:not a Simple graph";
 		exit(1);
 	}
 	if (num < m_vertices.size()-1)
