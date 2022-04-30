@@ -73,6 +73,7 @@ public:
 
 		return atoi(str.c_str());		
 	}
+	static bool isEOF() { return input_file.eof(); }
 };
 
 

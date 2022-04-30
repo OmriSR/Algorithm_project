@@ -4,6 +4,8 @@
 #include <ctype.h>
 #include <string>
 
+
+const int None = -1;
 using namespace std;
 
 enum  error{ not_a_new_edge, negative_vertex, not_int, vertex_out_of_range, not_a_vertex};
@@ -13,9 +15,9 @@ class Graph
 public:
 	class Edge
 	{
-		unsigned int                    m_src;
-		unsigned int                    m_dst;
-		vector<Edge>::iterator m_same_edge_undirected;
+		unsigned int                                     m_src;
+		unsigned int                                     m_dst;
+		int			m_index_in_dst_neighbours_list;
 		int m_weight = 0;
 
 		friend class Graph;
@@ -26,13 +28,14 @@ public:
 			m_src = src;
 			m_dst = dst;
 			m_weight = weight;
+			m_index_in_dst_neighbours_list = None;
 		}
 		Edge(const Edge& other)
 		{
 			m_src = other.m_src;
 			m_dst = other.m_dst;
 			m_weight = other.m_weight;
-			m_same_edge_undirected = other.m_same_edge_undirected;
+			m_index_in_dst_neighbours_list = other.m_index_in_dst_neighbours_list;
 		}
 		 unsigned int getDstVertex() const { return m_dst; }
 		 unsigned int getSrcVertex() const { return m_src; }
@@ -102,7 +105,7 @@ private:
 	void validateNumOfVertices(unsigned int i_numOfVertices);
 	void validateNumOfEdges(unsigned int num);
 	void newEdgeValidityCheck(int i_uInd, int i_vInd, int i_weight);
-	void removeEdgeValidityCheck(int i_u, int i_v, vector<Graph::Edge>::iterator i_edgeItr);
+	void removeEdgeValidityCheck(int i_u, int i_v, vector<Graph::Edge>::const_iterator i_edgeItr);
 
 
 public:

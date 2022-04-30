@@ -34,10 +34,16 @@ int main(int argc,char** argv)
 	G.removeEdge(inputhandler()()-1, inputhandler()()-1);
 	system("cls");
 
+	if (!inputhandler::isEOF()) outputhandler::exit_with_a_message("invalid input!");
+
 	if (checker.isConnected() == false) outputhandler::exit_with_a_message("graph is not connected, edge was a bridge therefore no MST.");
 	
 	kruskal_result = MST::kruskal(G);
+	
+
 	outputhandler()(MST::print_kruskal(kruskal_result));
+
+
 	system("pause");
 	inputhandler::closefile();
 	outputhandler::closefile();

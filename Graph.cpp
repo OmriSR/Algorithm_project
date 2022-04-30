@@ -10,7 +10,6 @@ void Graph::MakeEmpty(unsigned int i_numOfVertices)
 	for (unsigned int i = 0; i < i_numOfVertices; ++i)   
 	{
 		m_vertices.emplace_back(Vertex(i));
-		m_vertices[i].m_EdgesToNeighbours.reserve(i_numOfVertices);
 	}
 }
 
@@ -110,24 +109,39 @@ void Graph::addEdge(int i_weight, unsigned int i_vInd, unsigned int i_uInd )
 	connectEdgesPtrInAdjList(i_uInd, i_vInd);
 }
 
-void Graph::removeEdge(unsigned int i_v, unsigned int i_u)
+void Graph::removeEdge(unsigned int i_u, unsigned int i_v)
 {
- //if i_u is a valid index ? (u,v) - find iterator to edge that needs to be removes : else a propper massage will be printed to console from metod removeEdgeValidityCheck
-	 vector<Edge>::iterator toRemoveItr = (i_u >= 0) ?
-		findEdgeInAdjacentList(m_vertices[i_u].m_EdgesToNeighbours.begin(), m_vertices[i_u].m_EdgesToNeighbours.end(), i_v):
-		m_vertices[i_u].m_EdgesToNeighbours.end();
-
-	removeEdgeValidityCheck(i_u, i_v, toRemoveItr);
-
-	vector<Edge>::iterator identicalEdgeToRemoveItr = toRemoveItr->m_same_edge_undirected;  /* (v,u) - undirected graph*/
-
-	/*remove edge from unique edge vector*/
-	for (int i = 0; i < m_edges_unique.size(); ++i)
+	unsigned int same_edge_different_list_indx;
+	vector<Edge>::const_iterator edge_itr = m_vertices[i_u].getEdgesToNeighbours().begin(),end_of_list = m_vertices[i_u].getEdgesToNeighbours().end();
+	for (;edge_itr != end_of_list;++edge_itr)
 	{
-		if (m_edges_unique[i].m_src == i_v + 1 && m_edges_unique[i].m_dst == i_u + 1) m_edges_unique.erase(m_edges_unique.begin()+i);
+		if (edge_itr->getDstVertex() == i_v )
+		{
+			same_edge_different_list_indx = edge_itr->m_index_in_dst_neighbours_list;
+			break;
+		}
 	}
-	m_vertices[i_v].m_EdgesToNeighbours.erase(identicalEdgeToRemoveItr); 
-	m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
+	removeEdgeValidityCheck(i_u, i_v, edge_itr);
+	const_cast<vector<Graph::Edge>&>(m_vertices[i_u].getEdgesToNeighbours()).erase(edge_itr);
+	vector<Edge>::const_iterator  david = m_vertices[i_v].getEdgesToNeighbours().begin() + same_edge_different_list_indx;
+	const_cast<vector<Graph::Edge>&>(m_vertices[i_v].getEdgesToNeighbours()).erase(david);
+	
+ //if i_u is a valid index ? (u,v) - find iterator to edge that needs to be removes : else a propper massage will be printed to console from metod removeEdgeValidityCheck
+	// vector<Edge>::iterator toRemoveItr = (i_u >= 0) ?
+	//	findEdgeInAdjacentList(m_vertices[i_u].m_EdgesToNeighbours.begin(), m_vertices[i_u].m_EdgesToNeighbours.end(), i_v):
+	//	m_vertices[i_u].m_EdgesToNeighbours.end();
+
+	//removeEdgeValidityCheck(i_u, i_v, toRemoveItr);
+
+	//vector<Edge>::iterator identicalEdgeToRemoveItr = toRemoveItr->m_same_edge_undirected;  /* (v,u) - undirected graph*/
+
+	///*remove edge from unique edge vector*/
+	//for (int i = 0; i < m_edges_unique.size(); ++i)
+	//{
+	//	if (m_edges_unique[i].m_src == i_v + 1 && m_edges_unique[i].m_dst == i_u + 1) m_edges_unique.erase(m_edges_unique.begin()+i);
+	//}
+	//m_vertices[i_v].m_EdgesToNeighbours.erase(identicalEdgeToRemoveItr); 
+	//m_vertices[i_u].m_EdgesToNeighbours.erase(toRemoveItr);
 }
 
 vector<Graph::Edge>::iterator Graph::findEdgeInAdjacentList(const vector<Graph::Edge>::iterator& i_first,const vector<Graph::Edge>::iterator& i_last, unsigned int i_ajacent)
@@ -145,19 +159,20 @@ vector<Graph::Edge>::iterator Graph::findEdgeInAdjacentList(const vector<Graph::
 
 void Graph::connectEdgesPtrInAdjList(unsigned int i_uInd, unsigned int i_vInd)
 {
-	vector<Edge>::iterator u_v = prev(m_vertices[i_uInd].m_EdgesToNeighbours.end());
-	vector<Edge>::iterator v_u = prev(m_vertices[i_vInd].m_EdgesToNeighbours.end());
+	unsigned int index_of_V_in_Uneighbours = m_vertices[i_uInd].m_EdgesToNeighbours.size()-1;
+	unsigned int index_of_U_in_Vneighbours = m_vertices[i_vInd].m_EdgesToNeighbours.size()-1;
 
-	u_v->m_same_edge_undirected = v_u;
-	v_u->m_same_edge_undirected = u_v;
+	prev(m_vertices[i_uInd].m_EdgesToNeighbours.end())->m_index_in_dst_neighbours_list = index_of_U_in_Vneighbours;
+	prev(m_vertices[i_vInd].m_EdgesToNeighbours.end())->m_index_in_dst_neighbours_list = index_of_V_in_Uneighbours;
 }
 
-void Graph::removeEdgeValidityCheck(int i_u, int i_v, vector<Graph::Edge>::iterator i_edgeItr)
+void Graph::removeEdgeValidityCheck(int i_u, int i_v, vector<Graph::Edge>::const_iterator i_edgeItr)
 {
+	int vec_size = m_vertices.size();
 	try {
 		if (i_edgeItr == m_vertices[i_u].m_EdgesToNeighbours.end()) { throw not_a_vertex; }
 		if (i_u < 0 || i_v < 0) { throw(negative_vertex); }
-		if ((isVertexInRange(i_v, int(m_vertices.size()) && isVertexInRange(i_u, int(m_vertices.size())) == false))) { throw(vertex_out_of_range); }
+		if ((isVertexInRange(i_v, vec_size) && isVertexInRange(i_u,vec_size )) == false) { throw(vertex_out_of_range); }
 	}
 	catch (error& i_error)
 	{
@@ -194,7 +209,7 @@ void Graph::newEdgeValidityCheck(int i_u, int i_v, int i_weight)
 		switch (i_error)
 		{
 		case 0:
-			cout << "invalid input:The edge (" << i_u + 1 << "," << i_v + 1 << ") already exist in the graph!";
+			cout << "invalid input";
 			break;
 		case 1:
 			cout << "invalid input:The vertices must be a non-negative!";
